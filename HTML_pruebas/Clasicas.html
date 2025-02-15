@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="Pag_Informacion.css">
+</head>
+<body>
+    <div class="tab-pane" id="Dropdown_clasicas">
+        <ul class="nav nav-tabs bg-dark">
+            <li class="nav-item">
+                <a href="#Previsualizacion_clasicas" class="nav-link active" data-bs-toggle="tab">Pre-visualizacion</a>
+            </li>
+            <li>
+                <a href="#Consultas_clasicas" class="nav-link" data-bs-toggle="tab">Consultas</a>
+            </li>
+            <li>
+                <a href="#Insercion_clasicas" class="nav-link" data-bs-toggle="tab">Insercion</a>
+            </li>
+            <li>
+                <a href="#Actualizacion_clasicas" class="nav-link" data-bs-toggle="tab">Actualizacion</a>
+            </li>
+            <li>
+                <a href="#Eliminacion_clasicas" class="nav-link" data-bs-toggle="tab">Eliminacion</a>
+            </li>
+        </ul> <!-- ul para los tabs del Dorpdown_period_vincul-->
+        <div class="tab-content">
+            <div id="Previsualizacion_clasicas" class="tab-pane active">
+                <div id="Estilos_Previsualizacion_clasicas" class="estilos_Paginas">
+                    <p>
+                        Aqui podra consultar todas las carreras insertadas de un dia, las llamadas clasicas
+                    </p>
+                    <div id="salida_Previsualizacion_clasicas"></div>
+                    <script>
+                        let salida_Previsualizacion_clasicas = document.getElementById("salida_Previsualizacion_clasicas")
+                        let url_Previsualizacion_clasicas = new URL("http://localhost/Proyecto/Previsualizacion_Carrera_de_un_dia.php")
+                        fetch(url_Previsualizacion_clasicas)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.json())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='2'> Tabla Carreras de un dia Completa  </th> </tr>
+                                <tr> <td> Nombre </td> <td> Distancia Recorrida </td> </tr> </thead> <tbody> `
+                            for (let res of respuesta) {
+                                resultado += `<tr> <td> ${res.Carrera_Nombre} </td> <td> ${res.Distancia_Recorrida}  </td>  </tr>` 
+                            }
+                            resultado += `</tbody></table>`
+                            salida_Previsualizacion_clasicas.innerHTML = resultado
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_clasicas-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Insercion_clasicas" class="tab-pane">
+                <div id="Estilos_Insercion_clasicas" class="estilos_Paginas">
+                    <p>
+                        Aqui podra insertar una nueva clasica a la tabla. Recuerde que antes debe hanrla insertado en la tabla Carrera
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione la carrera que quiere Insertar</label>
+                        <select name="Carrera_clasica_Insercion" id="Carrera_clasica_Insercion" class="form-select"></select>
+                        <label for="" class="form-label">Distancia Recorrida</label>
+                        <input type="number" id="DistRecorr_clasica_Insercion" class="form-control">
+                        <button type="button" id="btn_Carrera_clasica_Insercion" class="btn btn-primary">Insertar</button>
+                    </form>
+                    <div id="salida_Insercion_clasicas"></div>
+                    <script>
+                        let url_Insercion_clasicas_select = new URL("http://localhost/Proyecto/Select_Carrera.php")
+                        fetch(url_Insercion_clasicas_select)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_clasica_Insercion = document.getElementById("Carrera_clasica_Insercion")
+                            Carrera_clasica_Insercion.innerHTML = respuesta
+                            let btn_Carrera_clasica_Insercion = document.getElementById("btn_Carrera_clasica_Insercion")
+                            btn_Carrera_clasica_Insercion.addEventListener("click",()=> {
+                                let clasica_Insercion = Carrera_clasica_Insercion.value
+                                let DistRecorr_Insercion = document.getElementById("DistRecorr_clasica_Insercion").value
+                                let params = {Carrera: clasica_Insercion, Distancia : DistRecorr_Insercion}
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Clasicas_Insercion = new URL("http://localhost/Proyecto/Insercion_clasicas.php")
+                                fetch(url_Clasicas_Insercion,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Insercion_clasicas = document.getElementById("salida_Insercion_clasicas")
+                                    salida_Insercion_clasicas.innerHTML = respuesta
+                                })
+                            })
+                        }) 
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Insercion_clasicas-->
+            </div> <!-- Div que cierra el tab-Pane de Insercion-->
+            <div id="Actualizacion_clasicas" class="tab-pane">
+                <div id="Estilos_Actualizacion_clasicas" class="estilos_Paginas">
+                    <p>
+                        Aqui podra actualizar datos de una clasica que elija
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione la carrera que quiere Actualizar</label>
+                        <select name="Carrera_clasica_Actualizacion" id="Carrera_clasica_Actualizacion" class="form-select"></select>
+                        <label for="" class="form-label">Distancia Recorrida actualizada</label>
+                        <input type="number" id="DistRecorr_clasica_Actualizacion" class="form-control">
+                        <button type="button" id="btn_Carrera_clasica_Actualizacion">Actualizar</button>
+                    </form>
+                    <div id="salida_Actualizacion_clasicas"></div>
+                    <script>
+                        let url_Actualizacion_clasicas_select = new URL("http://localhost/Proyecto/Select_Carrera_de_un_dia.php")
+                        fetch(url_Actualizacion_clasicas_select)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_clasica_Actualizacion = document.getElementById("Carrera_clasica_Actualizacion")
+                            Carrera_clasica_Actualizacion.innerHTML = respuesta
+                            let btn_Carrera_clasica_Actualizacion = document.getElementById("btn_Carrera_clasica_Actualizacion")
+                            btn_Carrera_clasica_Actualizacion.addEventListener("click",()=> {
+                                let clasica_Actualizacion = Carrera_clasica_Actualizacion.value
+                                let DistRecorr_Actualizacion = document.getElementById("DistRecorr_clasica_Actualizacion").value
+                                let params = {Carrera: clasica_Actualizacion, Distancia : DistRecorr_Actualizacion}
+                                console.log(params)
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Clasicas_Actualizacion = new URL("http://localhost/Proyecto/Actualizacion_clasicas.php")
+                                fetch(url_Clasicas_Actualizacion,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Actualizacion_clasicas = document.getElementById("salida_Actualizacion_clasicas")
+                                    salida_Actualizacion_clasicas.innerHTML = respuesta
+                                })
+                            })
+                        }) 
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Actualizacion_clasicas-->
+            </div> <!-- Div que cierra el tab-Pane de Actualizacion-->
+            <div id="Eliminacion_clasicas" class="tab-pane">
+                <div id="Estilos_Eliminacion_clasicas" class="estilos_Paginas">
+                    <p>
+                        En este apartado podra eliminar una clasica que considere erroneo los datos o que no sea una clasica
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione la carrera que quiere eliminar</label>
+                        <select name="Carrera_clasica_Eliminacion" id="Carrera_clasica_Eliminacion" class="form-select"></select>
+                        <button type="button" id="btn_Carrera_clasica_Eliminacion" class="btn btn-primary">Eliminar</button>
+                    </form>
+                    <div id="salida_Eliminacion_clasicas"></div>
+                    <script>
+                        let url_Eliminacion_clasicas_select = new URL("http://localhost/Proyecto/Select_Carrera_de_un_dia.php")
+                        fetch(url_Eliminacion_clasicas_select)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_clasica_Eliminacion = document.getElementById("Carrera_clasica_Eliminacion")
+                            Carrera_clasica_Eliminacion.innerHTML = respuesta
+                            let btn_Carrera_clasica_Eliminacion = document.getElementById("btn_Carrera_clasica_Eliminacion")
+                            btn_Carrera_clasica_Eliminacion.addEventListener("click",()=> {
+                                let clasica_Eliminacion = Carrera_clasica_Eliminacion.value
+                                let params = {Carrera: clasica_Eliminacion}
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Clasicas_Eliminacion = new URL("http://localhost/Proyecto/Eliminacion_clasicas.php")
+                                fetch(url_Clasicas_Eliminacion,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Eliminacion_clasicas = document.getElementById("salida_Eliminacion_clasicas")
+                                    salida_Eliminacion_clasicas.innerHTML = respuesta
+                                })
+                            })
+                        }) 
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Eliminacion_clasicas-->
+            </div> <!-- Div que cierra el tab-Pane de Eliminacion-->
+            <div id="Consultas_clasicas" class="tab-pane">
+                <div id="Estilos_Consultas_clasicas" class="estilos_Paginas">
+                    <p>
+                        Aqui podra consultar informacion acerca de una clasica concreta
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione la carrera que quiere consultar</label>
+                        <select name="Carrera_clasica_Consultas" id="Carrera_clasica_Consultas" class="form-select"></select>
+                        <button type="button" id="btn_Carrera_clasica_Consultas" class="btn btn-primary">Consultar</button>
+                    </form>
+                    <div id="salida_Consultas_clasicas"></div>
+                    <script>
+                        let url_Consultas_clasicas_select = new URL("http://localhost/Proyecto/Select_Carrera_de_un_dia.php")
+                        fetch(url_Consultas_clasicas_select)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_clasica_Consultas = document.getElementById("Carrera_clasica_Consultas")
+                            Carrera_clasica_Consultas.innerHTML = respuesta
+                            let btn_Carrera_clasica_Consultas = document.getElementById("btn_Carrera_clasica_Consultas")
+                            btn_Carrera_clasica_Consultas.addEventListener("click",()=> {
+                                let clasica_Consultas = Carrera_clasica_Consultas.value
+                                let params = {Carrera: clasica_Consultas}
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Clasicas_Consultas = new URL("http://localhost/Proyecto/Consultas_clasicas.php")
+                                fetch(url_Clasicas_Consultas,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Consultas_clasicas = document.getElementById("salida_Consultas_clasicas")
+                                    let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='2'> Tabla Carrera = ${params.Carrera}   </th> </tr>
+                                    <tr> <td> Nombre </td> <td> Distancia Recorrida </td> </tr> </thead> <tbody> `
+                                    for (let res of respuesta) {
+                                        resultado += `<tr> <td> ${res.Carrera_Nombre} </td> <td> ${res.Distancia_Recorrida}  </td>  </tr>` 
+                                    }
+                                    resultado += `</tbody></table>`
+                                    salida_Consultas_clasicas.innerHTML = resultado
+                                })
+                            })
+                        }) 
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Consultas_clasicas-->
+            </div> <!-- Div que cierra el tab-Pane de Consultas-->
+        </div> <!-- Div que cierra el tab-content de la tabla clasicas-->
+    </div> <!-- Div que cierra el tab-pane de la interaccion con la tabla clasicas-->
+</body>
+</html>

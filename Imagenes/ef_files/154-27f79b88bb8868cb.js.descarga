@@ -1,0 +1,681 @@
+(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([[154],{
+
+/***/ 44035:
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   AN: function() { return /* binding */ SetProductsSelected; },
+/* harmony export */   Bn: function() { return /* binding */ SetIsLoading; },
+/* harmony export */   W5: function() { return /* binding */ SetIsOpen; },
+/* harmony export */   Wr: function() { return /* binding */ SetMiniCartData; },
+/* harmony export */   _y: function() { return /* binding */ ResetMiniCart; },
+/* harmony export */   cr: function() { return /* binding */ SetIsOpenFromAddToCart; }
+/* harmony export */ });
+const SetMiniCartData = (cart)=>({
+        type: "SET_MINI_CART_DATA",
+        data: cart
+    });
+const ResetMiniCart = ()=>({
+        type: "RESET_MINI_CART"
+    });
+const SetIsOpen = (isOpen)=>({
+        type: "SET_IS_OPEN",
+        data: isOpen
+    });
+const SetIsOpenFromAddToCart = (isOpen)=>({
+        type: "SET_IS_OPEN_FROM_ADD_TO_CART",
+        data: isOpen
+    });
+const SetProductsSelected = (products)=>({
+        type: "SET_PRODUCTS_SELECTED",
+        data: products
+    });
+const SetIsLoading = (isLoading)=>({
+        type: "SET_IS_LOADING",
+        data: isLoading
+    });
+
+
+
+/***/ }),
+
+/***/ 52453:
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  E: function() { return /* reexport */ GetNotifcation_GetNotification; }
+});
+
+// EXTERNAL MODULE: ../../node_modules/react/jsx-runtime.js
+var jsx_runtime = __webpack_require__(52322);
+// EXTERNAL MODULE: ../../node_modules/react/index.js
+var react = __webpack_require__(2784);
+// EXTERNAL MODULE: ../../node_modules/prop-types/index.js
+var prop_types = __webpack_require__(13980);
+var prop_types_default = /*#__PURE__*/__webpack_require__.n(prop_types);
+// EXTERNAL MODULE: ../../packages/components/components/UtilsLibrary/src/index.js + 21 modules
+var src = __webpack_require__(68597);
+// EXTERNAL MODULE: ../../packages/components/components/Modal/src/Modal.js
+var Modal = __webpack_require__(68070);
+// EXTERNAL MODULE: ../../packages/frontend-common/src/context/customer/context.js + 2 modules
+var context = __webpack_require__(13877);
+// EXTERNAL MODULE: ../../packages/components/components/Notification/src/Notification.js
+var Notification = __webpack_require__(73207);
+// EXTERNAL MODULE: ../../packages/components/components/Checkbox/index.js + 1 modules
+var Checkbox = __webpack_require__(76585);
+// EXTERNAL MODULE: ../../packages/components/components/Select/index.js + 1 modules
+var Select = __webpack_require__(81486);
+// EXTERNAL MODULE: ../../packages/frontend-common/src/shared/GetNotifcation/Form.module.scss
+var Form_module = __webpack_require__(97107);
+var Form_module_default = /*#__PURE__*/__webpack_require__.n(Form_module);
+;// CONCATENATED MODULE: ../../packages/frontend-common/src/shared/GetNotifcation/Form.js
+
+
+
+
+
+
+
+const Input = (param)=>{
+    let { id, type, value, label, error, onChange } = param;
+    const handleOnChange = (e)=>onChange === null || onChange === void 0 ? void 0 : onChange(e.target.value);
+    return /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+        className: (Form_module_default())["form-input"],
+        children: [
+            /*#__PURE__*/ (0,jsx_runtime.jsx)("input", {
+                id: id,
+                type: type,
+                defaultValue: value || "",
+                onChange: handleOnChange,
+                onFocus: undefined,
+                placeholder: " ",
+                autoComplete: "off"
+            }),
+            /*#__PURE__*/ (0,jsx_runtime.jsxs)("label", {
+                htmlFor: id,
+                children: [
+                    /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                        children: label
+                    }),
+                    "*"
+                ]
+            }),
+            error && /*#__PURE__*/ (0,jsx_runtime.jsx)("span", {
+                children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                    children: error
+                })
+            })
+        ]
+    });
+};
+Input.propTypes = {
+    id: (prop_types_default()).string,
+    type: (prop_types_default()).string,
+    value: (prop_types_default()).string,
+    label: (prop_types_default()).string,
+    error: (prop_types_default()).string,
+    onChange: (prop_types_default()).func
+};
+const Form = (props)=>{
+    const { translate } = react.useContext(src/* I18nContext */.OO);
+    const getForm = ()=>{
+        switch(props.type){
+            case "email":
+                return /*#__PURE__*/ (0,jsx_runtime.jsx)(Input, {
+                    ...props
+                });
+            case "checkbox":
+                return /*#__PURE__*/ (0,jsx_runtime.jsx)(Checkbox/* Checkbox */.X, {
+                    id: props === null || props === void 0 ? void 0 : props.id,
+                    checked: props === null || props === void 0 ? void 0 : props.value,
+                    label: (props === null || props === void 0 ? void 0 : props.label) && /*#__PURE__*/ (0,jsx_runtime.jsx)("span", {
+                        dangerouslySetInnerHTML: {
+                            __html: translate(props.label)
+                        }
+                    }),
+                    onChange: (param)=>{
+                        let { checked } = param;
+                        var _props_onChange;
+                        return props === null || props === void 0 ? void 0 : (_props_onChange = props.onChange) === null || _props_onChange === void 0 ? void 0 : _props_onChange.call(props, checked);
+                    },
+                    error: (props === null || props === void 0 ? void 0 : props.error) && /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                        children: props === null || props === void 0 ? void 0 : props.error
+                    })
+                });
+            case "select":
+                return /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                    className: "".concat((Form_module_default())["input-select"]),
+                    children: [
+                        /*#__PURE__*/ (0,jsx_runtime.jsx)(Select/* Select */.Ph, {
+                            id: props === null || props === void 0 ? void 0 : props.id,
+                            placeholder: (props === null || props === void 0 ? void 0 : props.label) && translate(props === null || props === void 0 ? void 0 : props.label),
+                            selectedValue: props === null || props === void 0 ? void 0 : props.value,
+                            items: props === null || props === void 0 ? void 0 : props.options.reduce((p, i)=>[
+                                    ...p,
+                                    {
+                                        ...i,
+                                        value: i === null || i === void 0 ? void 0 : i.uuid,
+                                        disabled: false,
+                                        name: translate(i === null || i === void 0 ? void 0 : i.name)
+                                    }
+                                ], []),
+                            hasErrors: props === null || props === void 0 ? void 0 : props.error,
+                            onChange: (item)=>{
+                                var _props_onChange;
+                                return props === null || props === void 0 ? void 0 : (_props_onChange = props.onChange) === null || _props_onChange === void 0 ? void 0 : _props_onChange.call(props, item === null || item === void 0 ? void 0 : item.value);
+                            }
+                        }),
+                        (props === null || props === void 0 ? void 0 : props.error) && /*#__PURE__*/ (0,jsx_runtime.jsx)("span", {
+                            className: (Form_module_default()).error,
+                            children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                                children: props === null || props === void 0 ? void 0 : props.error
+                            })
+                        })
+                    ]
+                });
+            default:
+                return null;
+        }
+    };
+    return /*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
+        className: "".concat((Form_module_default())["form-input-wrapper"], " ").concat(props.error && props.type !== "checkbox" ? (Form_module_default()).error : ""),
+        children: getForm()
+    });
+};
+/* harmony default export */ var GetNotifcation_Form = (Form);
+
+// EXTERNAL MODULE: ../../packages/frontend-common/src/shared/GetNotifcation/GetNotificationContent.module.scss
+var GetNotificationContent_module = __webpack_require__(87738);
+var GetNotificationContent_module_default = /*#__PURE__*/__webpack_require__.n(GetNotificationContent_module);
+;// CONCATENATED MODULE: ../../packages/frontend-common/src/shared/GetNotifcation/GetNotificationContent.js
+
+
+
+
+
+
+
+/* istanbul ignore next */ const scrollToBottom = (elem)=>elem.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "end"
+    });
+const GetNotificationSuccess = (param)=>{
+    let { onClose } = param;
+    const handleOnClose = ()=>onClose === null || onClose === void 0 ? void 0 : onClose();
+    return /*#__PURE__*/ (0,jsx_runtime.jsxs)(jsx_runtime.Fragment, {
+        children: [
+            /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                className: (GetNotificationContent_module_default())["success-instructions"],
+                "data-testid": "notification-success-message",
+                children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                    children: "getnotification.getnotification_content.success_instruccions"
+                })
+            }),
+            /*#__PURE__*/ (0,jsx_runtime.jsx)("button", {
+                onClick: handleOnClose,
+                className: "".concat((GetNotificationContent_module_default()).button),
+                children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                    children: "getnotification.getnotification_content.closenotification"
+                })
+            })
+        ]
+    });
+};
+GetNotificationSuccess.propTypes = {
+    onClose: (prop_types_default()).func
+};
+const GetNotificationContent = (param)=>{
+    let { customerData, onChange, onGetNotificationPopupContent, error, success, isLogged, onClose, data } = param;
+    const { email, isAccepted, variant } = customerData;
+    const getNotifcationContentError = react.useRef(null);
+    const handleOnChange = (input)=>onChange === null || onChange === void 0 ? void 0 : onChange(input, customerData);
+    const handleOnGetNotificationPopupContent = (e)=>{
+        e.preventDefault();
+        onGetNotificationPopupContent === null || onGetNotificationPopupContent === void 0 ? void 0 : onGetNotificationPopupContent(customerData);
+    };
+    const handleOnClose = ()=>onClose === null || onClose === void 0 ? void 0 : onClose();
+    react.useEffect(()=>{
+        if (error && getNotifcationContentError.current) {
+            scrollToBottom(getNotifcationContentError.current);
+        }
+    }, [
+        error
+    ]);
+    react.useEffect(()=>{
+        if (isLogged && !data) {
+            onGetNotificationPopupContent === null || onGetNotificationPopupContent === void 0 ? void 0 : onGetNotificationPopupContent();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        isLogged
+    ]);
+    return /*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
+        className: (GetNotificationContent_module_default())["getnotificationcontent-component"],
+        children: success ? /*#__PURE__*/ (0,jsx_runtime.jsx)(GetNotificationSuccess, {
+            onClose: handleOnClose
+        }) : /*#__PURE__*/ (0,jsx_runtime.jsxs)(jsx_runtime.Fragment, {
+            children: [
+                isLogged ? (data === null || data === void 0 ? void 0 : data.length) ? /*#__PURE__*/ (0,jsx_runtime.jsxs)("form", {
+                    autoComplete: "off",
+                    className: (GetNotificationContent_module_default())["form-component"],
+                    id: "getnotificationcontent-form",
+                    children: [
+                        /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                            children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                                children: "getnotification.getnotification_content.how_variant"
+                            })
+                        }),
+                        /*#__PURE__*/ (0,jsx_runtime.jsx)(GetNotifcation_Form, {
+                            ...variant,
+                            options: data,
+                            onChange: (value)=>handleOnChange({
+                                    ...variant,
+                                    value
+                                })
+                        }),
+                        /*#__PURE__*/ (0,jsx_runtime.jsx)("button", {
+                            onClick: handleOnGetNotificationPopupContent,
+                            className: "".concat((GetNotificationContent_module_default()).button),
+                            children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                                children: "getnotification.getnotification_content.getnotification"
+                            })
+                        }),
+                        /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                            className: (GetNotificationContent_module_default()).required,
+                            children: [
+                                "* ",
+                                /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                                    children: "form.generic.required_fields"
+                                })
+                            ]
+                        })
+                    ]
+                }) : null : /*#__PURE__*/ (0,jsx_runtime.jsxs)("form", {
+                    autoComplete: "off",
+                    className: (GetNotificationContent_module_default())["form-component"],
+                    id: "getnotificationcontent-form",
+                    children: [
+                        (data === null || data === void 0 ? void 0 : data.length) ? /*#__PURE__*/ (0,jsx_runtime.jsxs)(jsx_runtime.Fragment, {
+                            children: [
+                                /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                                    children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                                        children: "getnotification.getnotification_content.how_variant_email"
+                                    })
+                                }),
+                                /*#__PURE__*/ (0,jsx_runtime.jsx)(GetNotifcation_Form, {
+                                    ...variant,
+                                    options: data,
+                                    onChange: (value)=>handleOnChange({
+                                            ...variant,
+                                            value
+                                        })
+                                })
+                            ]
+                        }) : /*#__PURE__*/ (0,jsx_runtime.jsx)("p", {
+                            children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                                children: "getnotification.getnotification_content.how"
+                            })
+                        }),
+                        /*#__PURE__*/ (0,jsx_runtime.jsx)(GetNotifcation_Form, {
+                            ...email,
+                            onChange: (value)=>handleOnChange({
+                                    ...email,
+                                    value
+                                })
+                        }),
+                        /*#__PURE__*/ (0,jsx_runtime.jsx)(GetNotifcation_Form, {
+                            ...isAccepted,
+                            onChange: (value)=>handleOnChange({
+                                    ...isAccepted,
+                                    value
+                                })
+                        }),
+                        /*#__PURE__*/ (0,jsx_runtime.jsx)("button", {
+                            onClick: handleOnGetNotificationPopupContent,
+                            className: "".concat((GetNotificationContent_module_default()).button),
+                            children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                                children: "getnotification.getnotification_content.getnotification"
+                            })
+                        }),
+                        /*#__PURE__*/ (0,jsx_runtime.jsxs)("div", {
+                            className: (GetNotificationContent_module_default()).required,
+                            children: [
+                                "* ",
+                                /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                                    children: "form.generic.required_fields"
+                                })
+                            ]
+                        })
+                    ]
+                }),
+                error ? /*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
+                    ref: getNotifcationContentError,
+                    className: (GetNotificationContent_module_default())["getnotificationcontent-error"],
+                    children: /*#__PURE__*/ (0,jsx_runtime.jsx)(Notification/* default */.Z, {
+                        message: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                            children: "getnotification.getnotification_content.error"
+                        }),
+                        type: "error"
+                    })
+                }) : null
+            ]
+        })
+    });
+};
+GetNotificationContent.propTypes = {
+    customerData: prop_types_default().shape({
+        email: prop_types_default().shape({
+            id: (prop_types_default()).string,
+            type: (prop_types_default()).string,
+            label: (prop_types_default()).string,
+            value: (prop_types_default()).string,
+            error: (prop_types_default()).string,
+            validate: (prop_types_default()).array
+        })
+    }),
+    data: (prop_types_default()).array,
+    onGetNotificationPopupContent: (prop_types_default()).func,
+    onChange: (prop_types_default()).func,
+    error: (prop_types_default()).bool,
+    success: (prop_types_default()).bool,
+    isLogged: (prop_types_default()).bool,
+    onClose: (prop_types_default()).func
+};
+/* harmony default export */ var GetNotifcation_GetNotificationContent = (GetNotificationContent);
+
+;// CONCATENATED MODULE: ../../packages/frontend-common/src/shared/GetNotifcation/utils/customer.js
+// istanbul ignore file
+
+const Customer = {
+    email: {
+        id: "email",
+        type: "email",
+        label: "form.label.email",
+        value: null,
+        error: null,
+        validate: [
+            src/* Validate */.Qq.email
+        ]
+    },
+    isAccepted: {
+        id: "isAccepted",
+        type: "checkbox",
+        label: "getnotification.getnotification_content.terms",
+        value: false,
+        validate: [
+            src/* Validate */.Qq.required
+        ]
+    }
+};
+/* harmony default export */ var customer = (Customer);
+
+;// CONCATENATED MODULE: ../../packages/frontend-common/src/shared/GetNotifcation/utils/variant.js
+// istanbul ignore file
+
+const Variant = {
+    variant: {
+        id: "variant",
+        type: "select",
+        label: "product_page.sizing.choose_option",
+        value: null,
+        error: null,
+        validate: [
+            src/* Validate */.Qq.required
+        ]
+    }
+};
+/* harmony default export */ var variant = (Variant);
+
+// EXTERNAL MODULE: ../../packages/frontend-common/src/shared/GetNotifcation/GetNotification.module.scss
+var GetNotification_module = __webpack_require__(5111);
+var GetNotification_module_default = /*#__PURE__*/__webpack_require__.n(GetNotification_module);
+// EXTERNAL MODULE: ../../packages/frontend-common/src/utils/classNames.js
+var classNames = __webpack_require__(42762);
+;// CONCATENATED MODULE: ../../packages/frontend-common/src/shared/GetNotifcation/GetNotification.js
+
+
+
+
+
+
+
+
+
+
+
+const ModalWithOnOpen = (param)=>{
+    let { onClickModal, children } = param;
+    react.useEffect(()=>{
+        onClickModal === null || onClickModal === void 0 ? void 0 : onClickModal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+    return children;
+};
+ModalWithOnOpen.propTypes = {
+    onClickModal: (prop_types_default()).func
+};
+const GetNotificationContainer = (param)=>{
+    let { isOpen, isLogged, userEmail, data, onClose, onClickSidebar, onClickModal } = param;
+    const [customerData, setCustomerData] = react.useState((0,src/* setCustomerValues */.z1)(Array.isArray(data) ? {
+        ...customer,
+        ...variant
+    } : customer));
+    const [getNotificationPopupContentError, setGetNotificationPopupContentError] = react.useState(false);
+    const [getNotificationPopupContentSuccess, setGetNotificationPopupContentSuccess] = react.useState(false);
+    const [loading, setLoading] = react.useState(false);
+    const { api, country, isMobile } = react.useContext(src/* Config */.De);
+    const handleOnModalClose = ()=>{
+        onClose === null || onClose === void 0 ? void 0 : onClose();
+        onClickModal === null || onClickModal === void 0 ? void 0 : onClickModal();
+    };
+    // istanbul ignore next
+    const handleOnInputChange = (input, form)=>{
+        const validateInput = {
+            ...form,
+            [input.id]: {
+                ...input,
+                error: (0,src/* getInputError */.g7)(input, form)
+            }
+        };
+        setCustomerData(validateInput);
+        setGetNotificationPopupContentError(false);
+    };
+    const renderGetNotificationTitle = ()=>/*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+            children: getNotificationPopupContentSuccess ? "getnotification.getnotification_content.success" : "getnotification.getnotification_content.title.getnotification"
+        });
+    const renderGetNotificationContent = ()=>/*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
+            className: (0,classNames/* default */.Z)((GetNotification_module_default())["get-notification-content-wrapper"]),
+            children: /*#__PURE__*/ (0,jsx_runtime.jsx)(GetNotifcation_GetNotificationContent, {
+                data: Array.isArray(data) ? data : null,
+                customerData: customerData,
+                onChange: handleOnInputChange,
+                onGetNotificationPopupContent: handleOnGetNotificationPopupContent,
+                error: getNotificationPopupContentError,
+                success: getNotificationPopupContentSuccess,
+                isLogged: isLogged,
+                onClose: handleOnModalClose
+            })
+        });
+    // istanbul ignore next
+    const postCustomerGetNotificationPopupContent = async (api, payload)=>{
+        const tokenMd5 = (0,src/* getCookie */.ej)("token_md5");
+        return fetch("".concat(api, "/api/customer/product/stock-available-again"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                country: country.code,
+                "dpv-session": (0,src/* getCookie */.ej)("dpv-session"),
+                ...!tokenMd5 ? {} : {
+                    "token-app": tokenMd5
+                }
+            },
+            credentials: "include",
+            body: JSON.stringify(payload)
+        }).then((ans)=>ans)// eslint-disable-next-line no-console
+        .catch((e)=>console.log(e));
+    };
+    // istanbul ignore next
+    const handleOnGetNotificationPopupContent = async (form)=>{
+        if (isLogged) {
+            setLoading(true);
+            try {
+                const { variant } = (0,src/* getCustomerValues */.jj)(customerData);
+                const res = await postCustomerGetNotificationPopupContent(api, {
+                    email: userEmail,
+                    productUuid: !Array.isArray(data) ? data : variant
+                });
+                if (res.status === 200) {
+                    setLoading(false);
+                    setGetNotificationPopupContentSuccess(true);
+                } else {
+                    setLoading(false);
+                    setGetNotificationPopupContentError(true);
+                }
+            } catch (e) {
+                return e;
+            }
+        } else {
+            const [result, hasErrors] = (0,src/* getFormErrors */.CK)(form);
+            if (hasErrors) {
+                setCustomerData(result);
+            } else {
+                setLoading(true);
+                try {
+                    const { variant } = (0,src/* getCustomerValues */.jj)(customerData);
+                    const res = await postCustomerGetNotificationPopupContent(api, {
+                        ...(0,src/* getCustomerValues */.jj)(customerData),
+                        productUuid: !Array.isArray(data) ? data : variant
+                    });
+                    if (res.status === 200) {
+                        setLoading(false);
+                        setGetNotificationPopupContentSuccess(true);
+                    } else {
+                        setLoading(false);
+                        setGetNotificationPopupContentError(true);
+                    }
+                } catch (e) {
+                    return e;
+                }
+            }
+        }
+        return "done";
+    };
+    react.useEffect(()=>{
+        // eslint-disable-next-line no-unused-expressions
+        isOpen && isMobile && (onClickSidebar === null || onClickSidebar === void 0 ? void 0 : onClickSidebar());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        isOpen,
+        isMobile
+    ]);
+    return isOpen && /*#__PURE__*/ (0,jsx_runtime.jsx)(jsx_runtime.Fragment, {
+        children: /*#__PURE__*/ (0,jsx_runtime.jsx)(ModalWithOnOpen, {
+            onClickModal: onClickModal,
+            children: /*#__PURE__*/ (0,jsx_runtime.jsx)(Modal["default"], {
+                portal: true,
+                mobilePosition: "bottom",
+                title: renderGetNotificationTitle(),
+                onClose: handleOnModalClose,
+                customClassName: (0,classNames/* default */.Z)((GetNotification_module_default())["modal-notification"], loading && (GetNotification_module_default()).loading),
+                children: renderGetNotificationContent()
+            })
+        })
+    });
+};
+GetNotificationContainer.propTypes = {
+    isOpen: (prop_types_default()).bool,
+    onClose: (prop_types_default()).func,
+    isLogged: (prop_types_default()).bool,
+    userEmail: (prop_types_default()).string,
+    data: prop_types_default().oneOfType([
+        (prop_types_default()).string,
+        (prop_types_default()).array
+    ]),
+    onClick: (prop_types_default()).func,
+    onClickModal: (prop_types_default()).func
+};
+const GetNotification = (param)=>{
+    let { children, data, openerStyle, openSidebar, onClickSidebar, onClickModal } = param;
+    var _userFromFlux_user, _userFromFlux_user1;
+    const [userFromFlux] = react.useContext(context/* CustomerContext */.A);
+    const [openGetNotification, setOpenGetNotification] = react.useState(openSidebar);
+    const toggleOpenGetNotification = ()=>{
+        setOpenGetNotification(!openGetNotification);
+    };
+    return /*#__PURE__*/ (0,jsx_runtime.jsxs)("span", {
+        className: (GetNotification_module_default())["get-notification-component"],
+        children: [
+            children ? /*#__PURE__*/ (0,jsx_runtime.jsx)("div", {
+                onClick: ()=>toggleOpenGetNotification(),
+                className: (GetNotification_module_default())["get-notification-trigger"],
+                children: children
+            }) : /*#__PURE__*/ (0,jsx_runtime.jsx)("a", {
+                className: "".concat((GetNotification_module_default())["get-notification-opener"], " ").concat(openerStyle ? (GetNotification_module_default())[openerStyle] : ""),
+                onClick: ()=>toggleOpenGetNotification(),
+                children: /*#__PURE__*/ (0,jsx_runtime.jsx)(src/* I18n */.oc, {
+                    children: "getnotification.title"
+                })
+            }),
+            /*#__PURE__*/ (0,jsx_runtime.jsx)(GetNotificationContainer, {
+                userEmail: userFromFlux === null || userFromFlux === void 0 ? void 0 : (_userFromFlux_user = userFromFlux.user) === null || _userFromFlux_user === void 0 ? void 0 : _userFromFlux_user.email,
+                data: data,
+                isOpen: openGetNotification,
+                isLogged: userFromFlux === null || userFromFlux === void 0 ? void 0 : (_userFromFlux_user1 = userFromFlux.user) === null || _userFromFlux_user1 === void 0 ? void 0 : _userFromFlux_user1.loggedIn,
+                onClose: toggleOpenGetNotification,
+                onClickSidebar: onClickSidebar,
+                onClickModal: onClickModal
+            })
+        ]
+    });
+};
+GetNotification.propTypes = {
+    children: (prop_types_default()).element,
+    data: prop_types_default().oneOfType([
+        (prop_types_default()).string,
+        (prop_types_default()).array
+    ]),
+    openerStyle: (prop_types_default()).string,
+    onClickSidebar: (prop_types_default()).func,
+    openSidebar: (prop_types_default()).bool,
+    onClickModal: (prop_types_default()).func
+};
+/* harmony default export */ var GetNotifcation_GetNotification = (GetNotification);
+
+;// CONCATENATED MODULE: ../../packages/frontend-common/src/shared/GetNotifcation/index.js
+// eslint-disable-next-line import/prefer-default-export
+
+
+
+/***/ }),
+
+/***/ 97107:
+/***/ (function(module) {
+
+// extracted by mini-css-extract-plugin
+module.exports = {"form-input-wrapper":"Form_form-input-wrapper__zNxV7","form-input":"Form_form-input__bQNm_","error":"Form_error___UO30","input-select":"Form_input-select__fYAlK"};
+
+/***/ }),
+
+/***/ 5111:
+/***/ (function(module) {
+
+// extracted by mini-css-extract-plugin
+module.exports = {"get-notification-component":"GetNotification_get-notification-component__NFU3r","get-notification-opener":"GetNotification_get-notification-opener__Jtfv5","strong":"GetNotification_strong__InDXZ","button":"GetNotification_button__ViVlM","icon":"GetNotification_icon__GJfzm","focus":"GetNotification_focus__5cFnB","disabled":"GetNotification_disabled__aehxR","active":"GetNotification_active__omsUx","loading-overlay":"GetNotification_loading-overlay__THEvN","rotate-animation":"GetNotification_rotate-animation___ZuqL","loading":"GetNotification_loading__zrVmt","get-notification-trigger":"GetNotification_get-notification-trigger__zFpb3","modal-notification":"GetNotification_modal-notification___M08j"};
+
+/***/ }),
+
+/***/ 87738:
+/***/ (function(module) {
+
+// extracted by mini-css-extract-plugin
+module.exports = {"getnotificationcontent-component":"GetNotificationContent_getnotificationcontent-component__g22KI","title-form":"GetNotificationContent_title-form__rE1zp","success-instructions":"GetNotificationContent_success-instructions__YqKOA","button":"GetNotificationContent_button__2wAkL","icon":"GetNotificationContent_icon__obBo1","focus":"GetNotificationContent_focus__WtqAa","disabled":"GetNotificationContent_disabled__bN09Q","active":"GetNotificationContent_active__MWWwn","loading-overlay":"GetNotificationContent_loading-overlay__mz0Xi","rotate-animation":"GetNotificationContent_rotate-animation__CVGdi","loading":"GetNotificationContent_loading__bRir5","form-component":"GetNotificationContent_form-component__wh7Xq","required":"GetNotificationContent_required__eNk_z","getnotificationcontent-error":"GetNotificationContent_getnotificationcontent-error__MpaGJ"};
+
+/***/ })
+
+}]);
+//# sourceMappingURL=154-27f79b88bb8868cb.js.map

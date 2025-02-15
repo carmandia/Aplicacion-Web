@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="Pag_Informacion.css">
+</head>
+<body>
+    <div class="tab-pane" id="Dropdown_vinc_equip_corr">
+        <ul class="nav nav-tabs bg-dark">
+            <li class="nav-item">
+                <a href="#Previsualizacion_vinc_equip_corr" class="nav-link active" data-bs-toggle="tab">Pre-visualizacion</a>
+            </li>
+            <li>
+                <a href="#Consultas_vinc_equip_corr" class="nav-link" data-bs-toggle="tab">Consultas</a>
+            </li>
+            <li>
+                <a href="#Insercion_vinc_equip_corr" class="nav-link" data-bs-toggle="tab">Insercion</a>
+            </li>
+            <li>
+                <a href="#Actualizacion_vinc_equip_corr" class="nav-link" data-bs-toggle="tab">Actualizacion</a>
+            </li>
+            <li>
+                <a href="#Eliminacion_vinc_equip_corr" class="nav-link" data-bs-toggle="tab">Eliminacion</a>
+            </li>
+        </ul> <!-- ul para los tabs del Dorpdown_period_vincul-->
+        <div class="tab-content">
+            <div id="Previsualizacion_vinc_equip_corr" class="tab-pane active">
+                <div id="Estilos_Previsualizacion_vinc_equip_corr" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui podra ver todas las vinculaciones que tienen los corredores con los equipos donde se incluyen los años de inicio y fin de esas vinculaciones
+                    </p>
+                    <div id="salida_Previsualizacion_vinc_equip_corr"></div>
+                    <script>
+                        let salida_Previsualizacion_vinc_equip_corr = document.getElementById("salida_Previsualizacion_vinc_equip_corr")
+                        let url_Previsualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Previsualizacion_Esta_vinculado.php")
+                        fetch(url_Previsualizacion_vinc_equip_corr)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.json())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='4'> Tabla Vinculaciones Equipo-Corredor Completa  </th> </tr>
+                                <tr> <td> Nombre Equipo </td> <td> Id Corredor </td> <td> Año inciio </td> <td> Año fin </td> </tr> </thead> <tbody> `
+                            for (let res of respuesta) {
+                                resultado += `<tr> <td> ${res.Equipo_Nombre} </td> <td> ${res.Corredor_Id}  </td> <td> ${res.Periodo_Año_inicio_vinc}  </td> <td> ${res.Periodo_Año_fin_vinc}  </td> </tr>` 
+                            }
+                            resultado += `</tbody></table>`
+                            salida_Previsualizacion_vinc_equip_corr.innerHTML = resultado
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_vinc_equip_corr-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Insercion_vinc_equip_corr" class="tab-pane">
+                <div id="Estilos_Insercion_vinc_equip_corr" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui podra insertar una nueva vinculacion entre un equipo, corredor y los años de comienzo y fin. Recuerde que los datos provienen de las tablas correspondientes
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Id del corredor a insertar</label>
+                        <select name="IdCorr_Insercion_vinc_equip_corr" id="IdCorr_Insercion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Nombre del equipo a insertar</label>
+                        <select name="Equipo_Insercion_vinc_equip_corr" id="Equipo_Insercion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Año inicio vinculacion a insertar</label>
+                        <select name="Inicio_Insercion_vinc_equip_corr" id="Inicio_Insercion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Año fin vinculacion a insertar</label>
+                        <select name="Fin_Insercion_vinc_equip_corr" id="Fin_Insercion_vinc_equip_corr" class="form-select"></select>
+                        <button type="button" id="btn_Insercion_vinc_equip_corr" class="btn btn-primary">Insertar</button>
+                    </form>
+                    <div id="salida_Insercion_vinc_equip_corr"></div>
+
+                    <script>
+                        let url_IdCorr_Insercion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_Id_corredores.php")
+                        fetch(url_IdCorr_Insercion_vinc_equip_corr)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let IdCorr_Insercion_vinc_equip_corr = document.getElementById("IdCorr_Insercion_vinc_equip_corr")
+                            IdCorr_Insercion_vinc_equip_corr.innerHTML = respuesta
+                            let url_Equipo_Insercion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_Nombre_equipos.php")
+                            fetch(url_Equipo_Insercion_vinc_equip_corr)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let Equipo_Insercion_vinc_equip_corr = document.getElementById("Equipo_Insercion_vinc_equip_corr")
+                                Equipo_Insercion_vinc_equip_corr.innerHTML = respuesta
+                                let url_Inicio_Insercion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_period_vinc_inicio.php")
+                                fetch(url_Inicio_Insercion_vinc_equip_corr)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.text())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let Inicio_Insercion_vinc_equip_corr = document.getElementById("Inicio_Insercion_vinc_equip_corr")
+                                    Inicio_Insercion_vinc_equip_corr.innerHTML = respuesta
+                                    let url_Fin_Insercion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_period_vinc_fin.php")
+                                    fetch(url_Fin_Insercion_vinc_equip_corr)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.text())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let Fin_Insercion_vinc_equip_corr = document.getElementById("Fin_Insercion_vinc_equip_corr")
+                                        Fin_Insercion_vinc_equip_corr.innerHTML = respuesta
+                                        let btn_Insercion_vinc_equip_corr = document.getElementById("btn_Insercion_vinc_equip_corr")
+                                        btn_Insercion_vinc_equip_corr.addEventListener("click",() => {
+                                            let params = {Corredor: IdCorr_Insercion_vinc_equip_corr.value, Equipo: Equipo_Insercion_vinc_equip_corr.value,Inicio: Inicio_Insercion_vinc_equip_corr.value ,Fin: Fin_Insercion_vinc_equip_corr.value }
+                                            let url_Insercion_vinc_equip_corr = new URL("http://localhost/Proyecto/Insercion_vinc_equip_corred.php")
+                                            let requestObj = {method: "POST"}
+                                            requestObj["body"] = JSON.stringify(params);
+                                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                            fetch(url_Insercion_vinc_equip_corr,requestObj)
+                                            .then((response) => {
+                                                if (response.ok) {
+                                                    return(response.json())
+                                                }
+                                            })
+                                            .then((respuesta) => {
+                                                let salida_Insercion_vinc_equip_corr = document.getElementById("salida_Insercion_vinc_equip_corr")
+                                                salida_Insercion_vinc_equip_corr.innerHTML = respuesta
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_vinc_equip_corr-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Eliminacion_vinc_equip_corr" class="tab-pane">
+                <div id="Estilos_Eliminacion_vinc_equip_corr" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui puede eliminar una vinculacion entre un corredor y un equipo
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Id del corredor a eliminar</label>
+                        <select name="IdCorr_Eliminacion_vinc_equip_corr" id="IdCorr_Eliminacion_vinc_equip_corr" class="dorm-select"></select>
+                        <label for="" class="form-label">Nombre del equipo a eliminar</label>
+                        <select name="Equipo_Eliminacion_vinc_equip_corr" id="Equipo_Eliminacion_vinc_equip_corr" class="dorm-select"></select>
+                        <label for="" class="form-label">Año inicio vinculacion a eliminar</label>
+                        <select name="Inicio_Eliminacion_vinc_equip_corr" id="Inicio_Eliminacion_vinc_equip_corr" class="dorm-select"></select>
+                        <label for="" class="form-label">Año fin vinculacion a eliminar</label>
+                        <select name="Fin_Eliminacion_vinc_equip_corr" id="Fin_Eliminacion_vinc_equip_corr" class="dorm-select"></select>
+                        <button type="button" id="btn_Eliminacion_vinc_equip_corr" class="btn btn-primary">Eliminar</button>
+                    </form>
+                    <div id="salida_Eliminacion_vinc_equip_corr"></div>
+
+                    <script>
+                        let url_IdCorr_Eliminacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_Id_corredores.php")
+                        fetch(url_IdCorr_Eliminacion_vinc_equip_corr)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let IdCorr_Eliminacion_vinc_equip_corr = document.getElementById("IdCorr_Eliminacion_vinc_equip_corr")
+                            IdCorr_Eliminacion_vinc_equip_corr.innerHTML = respuesta
+                            let url_Equipo_Eliminacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_Nombre_equipos.php")
+                            fetch(url_Equipo_Eliminacion_vinc_equip_corr)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let Equipo_Eliminacion_vinc_equip_corr = document.getElementById("Equipo_Eliminacion_vinc_equip_corr")
+                                Equipo_Eliminacion_vinc_equip_corr.innerHTML = respuesta
+                                let url_Inicio_Eliminacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_period_vinc_inicio.php")
+                                fetch(url_Inicio_Eliminacion_vinc_equip_corr)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.text())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let Inicio_Eliminacion_vinc_equip_corr = document.getElementById("Inicio_Eliminacion_vinc_equip_corr")
+                                    Inicio_Eliminacion_vinc_equip_corr.innerHTML = respuesta
+                                    let url_Fin_Eliminacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_period_vinc_fin.php")
+                                    fetch(url_Fin_Eliminacion_vinc_equip_corr)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.text())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let Fin_Eliminacion_vinc_equip_corr = document.getElementById("Fin_Eliminacion_vinc_equip_corr")
+                                        Fin_Eliminacion_vinc_equip_corr.innerHTML = respuesta
+                                        let btn_Eliminacion_vinc_equip_corr = document.getElementById("btn_Eliminacion_vinc_equip_corr")
+                                        btn_Eliminacion_vinc_equip_corr.addEventListener("click",() => {
+                                            let params = {Corredor: IdCorr_Eliminacion_vinc_equip_corr.value, Equipo: Equipo_Eliminacion_vinc_equip_corr.value,Inicio: Inicio_Eliminacion_vinc_equip_corr.value ,Fin: Fin_Eliminacion_vinc_equip_corr.value }
+                                            let url_Eliminacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Eliminacion_vinc_equip_corred.php")
+                                            let requestObj = {method: "POST"}
+                                            requestObj["body"] = JSON.stringify(params);
+                                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                            fetch(url_Eliminacion_vinc_equip_corr,requestObj)
+                                            .then((response) => {
+                                                if (response.ok) {
+                                                    return(response.json())
+                                                }
+                                            })
+                                            .then((respuesta) => {
+                                                let salida_Eliminacion_vinc_equip_corr = document.getElementById("salida_Eliminacion_vinc_equip_corr")
+                                                salida_Eliminacion_vinc_equip_corr.innerHTML = respuesta
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_vinc_equip_corr-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Actualizacion_vinc_equip_corr" class="tab-pane">
+                <div id="Estilos_Actualizacion_vinc_equip_corr" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui podra actualizar una vinculacion concreta
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Id del corredor a Actualizar</label>
+                        <select name="IdCorr_Actualizacion_vinc_equip_corr" id="IdCorrAct_Actualizacion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Nombre del equipo a Actualizar</label>
+                        <select name="Equipo_Actualizacion_vinc_equip_corr" id="EquipoAct_Actualizacion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Año inicio vinculacion a Actualizar</label>
+                        <select name="Inicio_Actualizacion_vinc_equip_corr" id="InicioAct_Actualizacion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Año fin vinculacion a Actualizar</label>
+                        <select name="Fin_Actualizacion_vinc_equip_corr" id="FinAct_Actualizacion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Id del corredor</label>
+                        <select name="IdCorr_Actualizacion_vinc_equip_corr" id="IdCorrNue_Actualizacion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Nombre del equipo</label>
+                        <select name="Equipo_Actualizacion_vinc_equip_corr" id="EquipoNue_Actualizacion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Año inicio vinculacion</label>
+                        <select name="Inicio_Actualizacion_vinc_equip_corr" id="InicioNue_Actualizacion_vinc_equip_corr" class="form-select"></select>
+                        <label for="" class="form-label">Año fin vinculacion</label>
+                        <select name="Fin_Actualizacion_vinc_equip_corr" id="FinNue_Actualizacion_vinc_equip_corr" class="form-select"></select>
+                        <button type="button" id="btn_Actualizacion_vinc_equip_corr" class="btn btn-primary">Actualizar</button>
+                    </form>
+                    <div id="salida_Actualizacion_vinc_equip_corr"></div>
+
+                    <script>
+                        let url_IdCorrAct_Actualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_Id_corredores.php")
+                        fetch(url_IdCorrAct_Actualizacion_vinc_equip_corr)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let IdCorrAct_Actualizacion_vinc_equip_corr = document.getElementById("IdCorrAct_Actualizacion_vinc_equip_corr")
+                            IdCorrAct_Actualizacion_vinc_equip_corr.innerHTML = respuesta
+                            let url_EquipoAct_Actualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_Nombre_equipos.php")
+                            fetch(url_EquipoAct_Actualizacion_vinc_equip_corr)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let EquipoAct_Actualizacion_vinc_equip_corr = document.getElementById("EquipoAct_Actualizacion_vinc_equip_corr")
+                                EquipoAct_Actualizacion_vinc_equip_corr.innerHTML = respuesta
+                                let url_InicioAct_Actualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_period_vinc_inicio.php")
+                                fetch(url_InicioAct_Actualizacion_vinc_equip_corr)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.text())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let InicioAct_Actualizacion_vinc_equip_corr = document.getElementById("InicioAct_Actualizacion_vinc_equip_corr")
+                                    InicioAct_Actualizacion_vinc_equip_corr.innerHTML = respuesta
+                                    let url_FinAct_Actualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_period_vinc_fin.php")
+                                    fetch(url_FinAct_Actualizacion_vinc_equip_corr)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.text())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let FinAct_Actualizacion_vinc_equip_corr = document.getElementById("FinAct_Actualizacion_vinc_equip_corr")
+                                        FinAct_Actualizacion_vinc_equip_corr.innerHTML = respuesta
+                                        let url_IdCorrNue_Actualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_Id_corredores.php")
+                                        fetch(url_IdCorrNue_Actualizacion_vinc_equip_corr)
+                                        .then((response) => {
+                                            if (response.ok) {
+                                                return(response.text())
+                                            }
+                                        })
+                                        .then((respuesta) => {
+                                            let IdCorrNue_Actualizacion_vinc_equip_corr = document.getElementById               ("IdCorrNue_Actualizacion_vinc_equip_corr")
+                                            IdCorrNue_Actualizacion_vinc_equip_corr.innerHTML = respuesta
+                                            let url_EquipoNue_Actualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_Nombre_equipos.php")
+                                            fetch(url_EquipoNue_Actualizacion_vinc_equip_corr)
+                                            .then((response) => {
+                                                if (response.ok) {
+                                                    return(response.text())
+                                                }
+                                            })
+                                            .then((respuesta) => {
+                                            let EquipoNue_Actualizacion_vinc_equip_corr = document.getElementById           ("EquipoNue_Actualizacion_vinc_equip_corr")
+                                            EquipoNue_Actualizacion_vinc_equip_corr.innerHTML = respuesta
+                                            let url_InicioNue_Actualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_period_vinc_inicio.php")
+                                            fetch(url_InicioNue_Actualizacion_vinc_equip_corr)
+                                            .then((response) => {
+                                                if (response.ok) {
+                                                    return(response.text())
+                                                }
+                                            })
+                                            .then((respuesta) => {
+                                                let InicioNue_Actualizacion_vinc_equip_corr = document.getElementById           ("InicioNue_Actualizacion_vinc_equip_corr")
+                                                InicioNue_Actualizacion_vinc_equip_corr.innerHTML = respuesta
+                                                let url_FinNue_Actualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Select_period_vinc_fin.php")
+                                                fetch(url_FinNue_Actualizacion_vinc_equip_corr)
+                                                .then((response) => {
+                                                    if (response.ok) {
+                                                        return(response.text())
+                                                    }
+                                                })
+                                                .then((respuesta) => {
+                                                    let FinNue_Actualizacion_vinc_equip_corr = document.getElementById          ("FinNue_Actualizacion_vinc_equip_corr")
+                                                    FinNue_Actualizacion_vinc_equip_corr.innerHTML = respuesta
+                                                    let btn_Actualizacion_vinc_equip_corr = document.getElementById("btn_Actualizacion_vinc_equip_corr")
+                                                    btn_Actualizacion_vinc_equip_corr.addEventListener("click", () => {
+                                                        let params ={CorredorAct: IdCorrAct_Actualizacion_vinc_equip_corr.value,EquipoAct:EquipoAct_Actualizacion_vinc_equip_corr.value ,InicioAct: InicioAct_Actualizacion_vinc_equip_corr.value,FinAct: FinAct_Actualizacion_vinc_equip_corr.value ,CorredorNue:IdCorrNue_Actualizacion_vinc_equip_corr.value ,EquipoNue:EquipoNue_Actualizacion_vinc_equip_corr.value ,InicioNue:InicioNue_Actualizacion_vinc_equip_corr.value ,FinNue:FinNue_Actualizacion_vinc_equip_corr.value}
+                                                        let requestObj = {method: "POST"}
+                                                        requestObj["body"] = JSON.stringify(params);
+                                                        requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                                        let url_Actualizacion_vinc_equip_corr = new URL("http://localhost/Proyecto/Actualizacion_vinc_equip_corred.php")
+                                                        fetch(url_Actualizacion_vinc_equip_corr,requestObj)
+                                                        .then((response) => {
+                                                            if (response.ok) {
+                                                                return(response.json())
+                                                            }
+                                                        })
+                                                        .then((respuesta) => {
+                                                            let salida_Actualizacion_vinc_equip_corr = document.getElementById("salida_Actualizacion_vinc_equip_corr")
+                                                            salida_Actualizacion_vinc_equip_corr.innerHTML = respuesta
+                                                        })
+                                                    })
+                                                })
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    })                 
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_vinc_equip_corr-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Consultas_vinc_equip_corr" class="tab-pane">
+                <div id="Estilos_Consultas_vinc_equip_corr" class="estilos_Paginas">
+                    <p>
+                        En esta parte podra consultar informacion acerca de algun elemento concreto de la pagina
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">De que elemento quiere conocer informacion</label>
+                        <select name="Opcion_Consultas_vinc_equip_corr" id="Opcion_Consultas_vinc_equip_corr" class="form-select">
+                            <option value=""></option>
+                            <option value="Cor">Corredor</option>
+                            <option value="Equi">Equipo</option>
+                            <option value="Ini">Año inicio</option>
+                            <option value="Fin">Año fin</option>
+                        </select>
+                        <label for="" class="form-label">Dato a consultar</label>
+                        <select name="select_Consultas_vinc_equip_corr" id="select_Consultas_vinc_equip_corr" class="form-select"></select>
+                        <button type="button" id="btn_vinc_equip_corr_Consultas" class="btn btn-primary">Consultar</button>
+                    </form>
+                    <div id="salida_Consultas_vinc_equip_corr"></div>
+                    <script>
+                        let Opcion_Consultas_vinc_equip_corr = document.getElementById("Opcion_Consultas_vinc_equip_corr")
+                        Opcion_Consultas_vinc_equip_corr.addEventListener("change",() => {
+                            switch (Opcion_Consultas_vinc_equip_corr.value) {
+                                case "Cor":
+                                    let url_select_Cor = new URL("http://localhost/Proyecto/Select_lider.php")
+                                    fetch(url_select_Cor)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.text())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let select_Consultas_Corredor_vinc_equip_corr = document.getElementById("select_Consultas_vinc_equip_corr")
+                                        select_Consultas_Corredor_vinc_equip_corr.innerHTML =respuesta
+                                        btn_Corredor_vinc_equip_corr_Consultas = document.getElementById("btn_vinc_equip_corr_Consultas")
+                                        btn_Corredor_vinc_equip_corr_Consultas.addEventListener("click", () => {
+                                            let params = {metodo: "Cor", Id:select_Consultas_Corredor_vinc_equip_corr.value}
+                                            let url_consultas_Corredor_vinc_equip_corr = new URL("http://localhost/Proyecto/Consultas_vinc_equip_corr.php")
+                                            let requestObj = {method:"POST"}
+                                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                            requestObj["body"] = JSON.stringify(params) 
+                                            fetch(url_consultas_Corredor_vinc_equip_corr,requestObj)
+                                            .then((response) => {
+                                                if (response.ok) {
+                                                    return(response.json())
+                                                }
+                                            })
+                                            .then((respuesta) => {
+                                                let salida_Consultas_Corredor_vinc_equip_corr = document.getElementById("salida_Consultas_vinc_equip_corr")
+                                                let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='4'> Tabla Vinculaciones Corredor =${params.Id}  </th> </tr>
+                                                <tr> <td> Nombre Equipo </td> <td> Id Corredor </td> <td> Año inciio </td> <td> Año fin </td> </tr> </thead> <tbody> `
+                                                for (let res of respuesta) {
+                                                    resultado += `<tr> <td> ${res.Equipo_Nombre} </td> <td> ${res.Corredor_Id}  </td> <td> ${res.Periodo_Año_inicio_vinc}  </td> <td> ${res.Periodo_Año_fin_vinc}  </td> </tr>` 
+                                                }
+                                                resultado += `</tbody></table>`
+                                                salida_Consultas_Corredor_vinc_equip_corr.innerHTML = resultado
+                                            })
+                                        })
+                                    })
+                                    break;
+                                case "Ini":
+                                    let url_select_Ini = new URL("http://localhost/Proyecto/Select_period_vinc_inicio.php")
+                                    fetch(url_select_Ini)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.json())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let select_Consultas_Inicio_vinc_equip_corr = document.getElementById("select_Consultas_vinc_equip_corr")
+                                        select_Consultas_Inicio_vinc_equip_corr.innerHTML =respuesta
+                                        btn_Inicio_vinc_equip_corr_Consultas = document.getElementById("btn_vinc_equip_corr_Consultas")
+                                        btn_Inicio_vinc_equip_corr_Consultas.addEventListener("click", () => {
+                                            let params = {metodo: "Ini", Id:select_Consultas_Inicio_vinc_equip_corr.value}
+                                            let url_consultas_Inicio_vinc_equip_corr = new URL("http://localhost/Proyecto/Consultas_vinc_equip_corr.php")
+                                            let requestObj = {method:"POST"}
+                                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                            requestObj["body"] = JSON.stringify(params)
+                                            fetch(url_consultas_Inicio_vinc_equip_corr,requestObj)
+                                            .then((response) => {
+                                                if (response.ok) {
+                                                    return(response.json())
+                                                }
+                                            })
+                                            .then((respuesta) => {
+                                                let salida_Consultas_Inicio_vinc_equip_corr = document.getElementById("salida_Consultas_vinc_equip_corr")
+                                                let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='4'> Tabla Vinculaciones Año Inicio =${params.Id}  </th> </tr>
+                                                <tr> <td> Nombre Equipo </td> <td> Id Corredor </td> <td> Año inciio </td> <td> Año fin </td> </tr> </thead> <tbody> `
+                                                for (let res of respuesta) {
+                                                    resultado += `<tr> <td> ${res.Equipo_Nombre} </td> <td> ${res.Corredor_Id}  </td> <td> ${res.Periodo_Año_inicio_vinc}  </td> <td> ${res.Periodo_Año_fin_vinc}  </td> </tr>` 
+                                                }
+                                                resultado += `</tbody></table>`
+                                                salida_Consultas_Inicio_vinc_equip_corr.innerHTML = resultado
+                                            })
+                                        })
+                                    })
+                                    break;
+                                case "Fin":
+                                let url_select_Fin = new URL("http://localhost/Proyecto/Select_period_vinc_fin.php")
+                                    fetch(url_select_Fin)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.json())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let select_Consultas_Fin_vinc_equip_corr = document.getElementById("select_Consultas_vinc_equip_corr")
+                                        select_Consultas_Fin_vinc_equip_corr.innerHTML =respuesta
+                                        btn_Fin_vinc_equip_corr_Consultas = document.getElementById("btn_vinc_equip_corr_Consultas")
+                                        btn_Fin_vinc_equip_corr_Consultas.addEventListener("click", () => {
+                                            let params = {metodo: "Ini", Id:select_Consultas_Fin_vinc_equip_corr.value}
+                                            let url_consultas_Fin_vinc_equip_corr = new URL("http://localhost/Proyecto/Consultas_vinc_equip_corr.php")
+                                            let requestObj = {method:"POST"}
+                                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                            requestObj["body"] = JSON.stringify(params)
+                                            fetch(url_consultas_Fin_vinc_equip_corr,requestObj)
+                                            .then((response) => {
+                                                if (response.ok) {
+                                                    return(response.json())
+                                                }
+                                            })
+                                            .then((respuesta) => {
+                                                let salida_Consultas_Fin_vinc_equip_corr = document.getElementById("salida_Consultas_vinc_equip_corr")
+                                                let resultado = `<table class='table table-hover table striped'><thead> <tr> <th colspan='4'> Tabla Vinculaciones Año Fin =${params.Id}  </th> </tr>
+                                                <tr> <td> Nombre Equipo </td> <td> Id Corredor </td> <td> Año inciio </td> <td> Año fin </td> </tr> </thead> <tbody> `
+                                                for (let res of respuesta) {
+                                                    resultado += `<tr> <td> ${res.Equipo_Nombre} </td> <td> ${res.Corredor_Id}  </td> <td> ${res.Periodo_Año_inicio_vinc}  </td> <td> ${res.Periodo_Año_fin_vinc}  </td> </tr>` 
+                                                }
+                                                resultado += `</tbody></table>`
+                                                salida_Consultas_Fin_vinc_equip_corr.innerHTML = resultado
+                                            })
+                                        })
+                                    })
+                                    break;
+                                default:
+                                    let select_Consultas_vinc_equip_corr = document.getElementById("select_Consultas_vinc_equip_corr")
+                                    select_Consultas_vinc_equip_corr.innerHTML= "<option value = ''></option>" 
+                                    btn_vinc_equip_corr_Consultas = document.getElementById("btn_vinc_equip_corr_Consultas")
+                                    btn_vinc_equip_corr_Consultas.addEventListener("click", () => {
+                                        let salida_Consultas_vinc_equip_corr = document.getElementById("salida_Consultas_vinc_equip_corr")
+                                        salida_Consultas_vinc_equip_corr.innerHTML = "Seleccione una opcion valida"     
+                                    })
+                                    break;
+                            }
+                        })
+                    </script>
+                </div> <!-- Div para darle estilo a la Consultas_gre_lid-->
+            </div> <!-- Div que cierra el tab-pane de la consulta-->
+        </div> <!-- Div que cierra el tab-content de la tabla vinc_equip_corr-->
+    </div> <!-- Div que cierra el tab-pane de la interaccion con la tabla vinc_equip_corr-->
+</body>
+</html>

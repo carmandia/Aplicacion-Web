@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="Pag_Informacion.css">
+</head>
+<body>
+    <div class="tab-pane" id="Dropdown_vueltas">
+        <ul class="nav nav-tabs bg-dark">
+            <li class="nav-item">
+                <a href="#Previsualizacion_vueltas" class="nav-link active" data-bs-toggle="tab">Pre-visualizacion</a>
+            </li>
+            <li>
+                <a href="#Consultas_vueltas" class="nav-link" data-bs-toggle="tab">Consultas</a>
+            </li>
+            <li>
+                <a href="#Insercion_vueltas" class="nav-link" data-bs-toggle="tab">Insercion</a>
+            </li>
+            <li>
+                <a href="#Actualizacion_vueltas" class="nav-link" data-bs-toggle="tab">Actualizacion</a>
+            </li>
+            <li>
+                <a href="#Eliminacion_vueltas" class="nav-link" data-bs-toggle="tab">Eliminacion</a>
+            </li>
+        </ul> <!-- ul para los tabs del Dorpdown_period_vincul-->
+        <div class="tab-content">
+            <div id="Previsualizacion_vueltas" class="tab-pane active">
+                <div id="Estilos_Previsualizacion_vueltas" class="estilos_Paginas">
+                    
+                    <p>
+                        En este apartado podra visualizar toda la informacion insertada en la base de datos acerca de las vueltas de varios dias tambien llamadas vueltas por etapas
+                    </p>
+                    <div id="salida_Previsualizacion_vueltas"></div>
+                    <script>
+                        let salida_Previsualizacion_vueltas = document.getElementById("salida_Previsualizacion_vueltas")
+                        let url_Previsualizacion_vueltas = new URL("http://localhost/Proyecto/Previsualizacion_Carrera_por_etapas.php")
+                        fetch(url_Previsualizacion_vueltas)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.json())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='3'> Tabla Vuelta por etapas Completa  </th> </tr>
+                                <tr> <td> Nombre </td> <td> Distancia Total </td> <td> Nº de etapas </td>  </tr> </thead> <tbody> `
+                            for (let res of respuesta) {
+                                resultado += `<tr> <td> ${res.Carrera_Nombre} </td> <td> ${res.Distancia_total}  </td> <td> ${res.nº_etapas}  </td> </tr>` 
+                            }
+                            resultado += `</tbody></table>`
+                            salida_Previsualizacion_vueltas.innerHTML = resultado
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_vueltas-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Consultas_vueltas" class="tab-pane">
+                <div id="Estilos_Consultas_vueltas" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui podra consutar informacion acerca de una carrera por etapas
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Vuelta que quiere consultar</label>
+                        <select name="vuelta_Consultas_Vueltas" id="vuelta_Consultas_Vueltas" class="form-select"></select>
+                        <button type="button" id="btn_Consultas_vuelta" class="btn btn-primary">Consultar</button>
+                    </form>
+                    <div id="salida_Consultas_vueltas"></div>
+                    <script>
+                        let url_vuelta_Consultas_Vueltas = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_vuelta_Consultas_Vueltas)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let vuelta_Consultas_Vueltas = document.getElementById("vuelta_Consultas_Vueltas")
+                            vuelta_Consultas_Vueltas.innerHTML=respuesta
+                            let btn_Consultas_vuelta = document.getElementById("btn_Consultas_vuelta")
+                            btn_Consultas_vuelta.addEventListener("click",() =>{
+                                let params = {Vuelta:vuelta_Consultas_Vueltas.value}
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Consultas_vueltas = new URL("http://localhost/Proyecto/Consultas_vueltas.php")
+                                fetch(url_Consultas_vueltas,requestObj)
+                                .then((response) =>{
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Consultas_vueltas = document.getElementById("salida_Consultas_vueltas")
+                                    let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='3'> Tabla Vuelta = ${params.Vuelta}  </th> </tr>
+                                    <tr> <td> Nombre </td> <td> Distancia Total </td> <td> Nº de etapas </td>  </tr> </thead> <tbody> `
+                                    for (let res of respuesta) {
+                                        resultado += `<tr> <td> ${res.Carrera_Nombre} </td> <td> ${res.Distancia_total}  </td> <td> ${res.nº_etapas}  </td> </tr>` 
+                                    }
+                                    resultado += `</tbody></table>`
+                                    salida_Consultas_vueltas.innerHTML = resultado
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Consultas_vueltas-->
+            </div> <!-- Div que cierra el tab-Pane de Consultas-->
+            <div id="Eliminacion_vueltas" class="tab-pane">
+                <div id="Estilos_Eliminacion_vueltas" class="estilos_Paginas">
+                    <p>
+                        Podra eliminar una vuelta por etapas que considere erroneo los datos o simplemente no sea una vuelta por etapas
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Vuelta que quiere eliminar</label>
+                        <select name="vuelta_Eliminacion_Vueltas" id="vuelta_Eliminacion_Vueltas" class="form-select"></select>
+                        <button type="button" id="btn_Eliminacion_vuelta" class="btn btn-primary">Eliminar</button>
+                    </form>
+                    <div id="salida_Eliminacion_vueltas"></div>
+                    <script>
+                        let url_vuelta_Eliminacion_Vueltas = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_vuelta_Eliminacion_Vueltas)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let vuelta_Eliminacion_Vueltas = document.getElementById("vuelta_Eliminacion_Vueltas")
+                            vuelta_Eliminacion_Vueltas.innerHTML=respuesta
+                            let btn_Eliminacion_vuelta = document.getElementById("btn_Eliminacion_vuelta")
+                            btn_Eliminacion_vuelta.addEventListener("click",() =>{
+                                let params = {Vuelta:vuelta_Eliminacion_Vueltas.value}
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Eliminacion_vueltas = new URL("http://localhost/Proyecto/Eliminacion_Vueltas.php")
+                                fetch(url_Eliminacion_vueltas,requestObj)
+                                .then((response) =>{
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Eliminacion_vueltas = document.getElementById("salida_Eliminacion_vueltas")
+                                    resultado += `</tbody></table>`
+                                    salida_Eliminacion_vueltas.innerHTML = respuesta
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Consultas_vueltas-->
+            </div> <!-- Div que cierra el tab-Pane de Consultas-->
+            <div id="Actualizacion_vueltas" class="tab-pane">
+                <div id="Estilos_Actualizacion_vueltas" class="estilos_Paginas">
+                    <p>
+                        Aqui podra actualizar la informacion acerca de una vuelta por etapas concreta
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione la carrera que quiere Actualizar</label>
+                        <select name="Carrera_vuelta_Actualizacion" id="Carrera_vuelta_Actualizacion" class="form-select"></select>
+                        <label for="" class="form-label">Distancia total actualizada</label>
+                        <input type="number" id="DistRecorr_Vuelta_Actualizacion" class="form-control">
+                        <label for="" class="form-label">Nº de etapas actualizad</label>
+                        <input type="number" id="Netap_Vuelta_Actualizacion" class="form-control">
+                        <button type="button" id="btn_Carrera_Vuelta_Actualizacion" class="btn btn-primary">Actualizar</button>
+                    </form>
+                    <div id="salida_Actualizacion_vuelta"></div>
+                    <script>
+                        let url_Actualizacion_vuelta_select = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_Actualizacion_vuelta_select)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_vuelta_Actualizacion = document.getElementById("Carrera_vuelta_Actualizacion")
+                            Carrera_vuelta_Actualizacion.innerHTML = respuesta
+                            let btn_Carrera_Vuelta_Actualizacion = document.getElementById("btn_Carrera_Vuelta_Actualizacion")
+                            btn_Carrera_Vuelta_Actualizacion.addEventListener("click",()=> {
+                                let Vuelta = Carrera_vuelta_Actualizacion.value
+                                let Dist = document.getElementById("DistRecorr_Vuelta_Actualizacion").value
+                                let Netap = document.getElementById("Netap_Vuelta_Actualizacion").value
+                                let params = {Carrera: Vuelta, Distancia : Dist, NEtp:Netap}
+                                console.log(params)
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_vuelta_Actualizacion = new URL("http://localhost/Proyecto/Actualizacion_vueltas.php")
+                                fetch(url_vuelta_Actualizacion,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Actualizacion_vuelta = document.getElementById("salida_Actualizacion_vuelta")
+                                    salida_Actualizacion_vuelta.innerHTML = respuesta
+                                })
+                            })
+                        }) 
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Actualizacion_clasicas-->
+            </div> <!-- Div que cierra el tab-Pane de Actualizacion-->
+            <div id="Insercion_vueltas" class="tab-pane">
+                <div id="Estilos_Insercion_vueltas" class="estilos_Paginas">
+                    <p>
+                        Aqui podra insertar una vuelta por etapas. Recuerde que antes dbe insertarla en la tabla Carrera
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione la carrera que quiere Insertar</label>
+                        <select name="Carrera_vueltas_Insercion" id="Carrera_vueltas_Insercion" class="form-select"></select>
+                        <label for="" class="form-label">Distancia Recorrida</label>
+                        <input type="number" id="DistRecorr_vueltas_Insercion" class="form-control">
+                        <label for="" class="form-label">Nº de etapas</label>
+                        <input type="number" id="Netapas_vueltas_Insercion" class="form-control">
+                        <button type="button" id="btn_Carrera_vueltas_Insercion" class="btn btn-primary">Insertar</button>
+                    </form>
+                    <div id="salida_Insercion_vueltas"></div>
+                    <script>
+                        let url_Insercion_vueltas_select = new URL("http://localhost/Proyecto/Select_Carrera.php")
+                        fetch(url_Insercion_vueltas_select)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_vueltas_Insercion = document.getElementById("Carrera_vueltas_Insercion")
+                            Carrera_vueltas_Insercion.innerHTML = respuesta
+                            let btn_Carrera_vueltas_Insercion = document.getElementById("btn_Carrera_vueltas_Insercion")
+                            btn_Carrera_vueltas_Insercion.addEventListener("click",()=> {
+                                let vuelta_Insercion = Carrera_vueltas_Insercion.value
+                                let DistRecorr_Insercion = document.getElementById("DistRecorr_vueltas_Insercion").value
+                                let num_etp = document.getElementById("Netapas_vueltas_Insercion").value
+                                let params = {Carrera: clasica_Insercion, Distancia : DistRecorr_Insercion, Netp: num_etp}
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Vueltas_Insercion = new URL("http://localhost/Proyecto/Insercion_vueltas.php")
+                                fetch(url_Vueltas_Insercion,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Insercion_vueltas = document.getElementById("salida_Insercion_vueltas")
+                                    salida_Insercion_vueltas.innerHTML = respuesta
+                                })
+                            })
+                        }) 
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Insercion_clasicas-->
+            </div> <!-- Div que cierra el tab-Pane de Insercion-->
+        </div> <!-- Div que cierra el tab-content de la tabla vueltas-->
+    </div> <!-- Div que cierra el tab-pane de la interaccion con la tabla vueltas-->
+</body>
+</html>

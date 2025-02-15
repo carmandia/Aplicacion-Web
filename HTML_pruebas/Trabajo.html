@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="Pag_Inicio.css">
+    <link rel="stylesheet" href="Pag_Img.css">
+    <link rel="stylesheet" href="General.css">
+    <link rel="stylesheet" href="Juego.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container ml-4">
+        <main class="mt-3">
+            <div class="bg-dark" style="display: flex; 
+            justify-content: space-around; 
+            align-items: center; margin-bottom: auto;">
+            <img src="Imagenes/imagen_main1.jpg" alt="Imagen bicicleta" style="width: 100px;" >
+            <h1><a href="#Inicio_pag" class="navbar-brand" style="color: white;">Ciclismo. Un deporte infravalorado</a></h1>
+            <img src="Imagenes/imagen_main_velon.png" alt="Imagen Velon" style="width: 100px; background-color: white;">
+            </div>
+        </main>
+        <nav class="navbar navbar-expand bg-dark navbar-dark mt-3" style="display: flex; justify-content: space-around;">
+            <h1><a href="#Inicio_pag" class="navbar-brand d-flex justify-content-center">Conoce este deporte</a></h1>
+            <ul class="navbar-nav nav">
+                <li class="nav-item">
+                <a href="#Inicio_pag" class="nav-link active" data-bs-toggle="tab">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#Equipos_pag" class="nav-link" data-bs-toggle="tab">Equipos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#Juego" class="nav-link" data-bs-toggle="tab">Juego</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#informacion" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">Informacion</a>
+                    <div class="dropdown-menu">
+                        <a href="#form_equipo" class="dropdown-item" data-bs-toggle="tab">Equipos</a>
+                        <a href="#form_corredor" class="dropdown-item" data-bs-toggle="tab">Corredores</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Carreras</a>
+                        <a href="#form_presentacion" class="dropdown-item" data-bs-toggle="tab">Presentaciones</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Periodos de vinculacion</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Vinculaciones Equipo-Corredor</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Etapas</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Relaciones Gregario-Lider</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Clasicas</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Vueltas por etapas</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Municipios</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Codigos postales</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Resultados etapas</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Paises</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Provincias</a>
+                        <a href="#form_carrera" class="dropdown-item" data-bs-toggle="tab">Por donde pasan las carreras</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#Enlaces" class="nav-link" data-bs-toggle="tab">Informacion adicional</a>
+                </li>
+                <div class="d-flex justify-content-end">
+                    <form class="form-inline d-flex space-between">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </ul>
+        </nav>
+        <div class="tab-content mt-3">
+            <div id="Inicio_pag" class="tab-pane active">
+                <div id="Estilo_pag_inicio">
+                    <p>
+                        Todos hemos escuchado las tipicas frases como que aburrido es el ciclismo, lo unico bueno que tiene es que me puedo echar la    siesta
+                        viendo el Tour de Francia, o los corredores van todos dopados porque nadie aguantaria esos niveles de esfuerzo sin meterse  cosas.
+                        Sin embargo muy pocos ponen en valor la belleza de este deporte, el cual combina la emocion de unas personas yendo al limite    de su capacidad
+                        por carreteras en las que casi nadie es capaz de atreverse a afrontar, como los sectores de paves en carreras como la Roubaix   o el mitico 
+                        Zoncolan en el Giro d'Italia, junto con una ristra de paisajes que permite a las organizaciones mostrar el distintos lugares    para atraer 
+                        el turismo a esa region, a parte de inculcar a la gente el uso de la bicicleta como medio sostenible de movilidad en estos  tiempos.
+                    </p>
+                    <div id="carrusel_inicio" class="carousel slide mt-2" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carrusel_inicio" data-bs-slide-to="0" class="active" aria-current="true"     aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carrusel_inicio" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carrusel_inicio" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="Imagenes/img_informacion.jpg" class="d-block w-100" alt="Imagen 1">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="Imagenes/Carrusel_2.webp" class="d-block w-100" alt="Imagen 2">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="Imagenes/carrusel_3.jpg" class="d-block w-100" alt="Imagen 3">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carrusel_inicio" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carrusel_inicio" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Siguiente</span>
+                        </button>
+                    </div>
+                    <div id="Parrafos_explic">
+                        <p>
+                        En esta pagina encontrara varios apartados para ampliar sus coocimientos acerca de este gran deporte:
+                        </p>
+                        <ul>
+                            <li>
+                                <p>
+                                En primer lugar dispondra de una pagina <a href="#Equipos">Equipos</a> para conocer a los distintos equipos que forman  parte del llamado <strong>UCI World Tour</strong>, es decir los equipos que tienen permitido correr todas las carreras   del maximo nivel ciclista
+                                </p>
+                            </li>
+                            <div>
+                            <img src="Imagenes/uci-world-tour-logo.jpg" alt="Logo UCI">
+                            </div>
+                            <li>
+                                <p>
+                                En un segundo lugar dispondra de un apartado llamado <a href="#Juego">Juego</a> donde podra confeccionar su equipo  ideal para una carrera ya sea una <em>Clásica</em> o una <em>Carrera por etapas</em>
+                                </p>
+                            </li>
+                            <div>
+                            <img src="Imagenes/Tier_list.jpg" alt="Tier list">
+                            </div>
+                            <li>
+                                <p>
+                                Posteriormente tendra un apartado dedicado a la consulta, insercion, actualizacion o eliminacion de informacion que     considere erronea o atrasada
+                                </p>
+                            </li>
+                            <div>
+                            <img src="Imagenes/Imagen_info.png" alt="Imagen informacion">
+                            </div>
+                            <li>
+                                <p>
+                                Para terminar se encontrara una pagina con <a href="#Info">informacion adicional</a> en la que se encontrara una serie  de enlaces a otras paginas, como pueden ser las de las <em>propias carreras</em> y tambien de algunos <em>sitios web </em> por si quiere ampliar la informacion por su cuenta
+                                </p>
+                            </li>
+                            <div>
+                            <img src="Imagenes/Imagen_ciclo21.jpg" alt="Imagen Pagina Ciclo21">
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="Equipos_pag" class="tab-pane">
+                <div id="Estilo_pag_equipos" style="background-color: #F3F3F3;">
+                    <div class="row" id="divCards"> </div>
+                        <script>
+                            function res_equip() {
+                                let url = new URL("http://localhost/Proyecto/Resumen_Equipos.php")
+                                let requestObj = {method: "GET"}
+                                fetch(url,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.text())
+                                    } else {alert("Puede haber un error en la conexion, por favor reviselo")}
+                                })
+                                .then((resp) => {
+                                    const div_sal = document.getElementById("divCards")
+                                    div_sal.innerHTML = resp
+                                })
+                            }
+                            res_equip()
+                        </script>
+                </div>
+            </div>
+            <div id="Juego" class="tab-pane">
+                <ul class="nav nav-tabs bg-dark">
+                    <li class="nav-item">
+                        <a href="#Clasica" class="nav-link active" data-bs-toggle="tab">Clasica</a>
+                    </li>
+                    <li>
+                        <a href="#Vuelta" class="nav-link" data-bs-toggle="tab">Vuelta por etapas</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="Clasica" class="tab-pane active">
+                        <p>En este apartado podra confeccionar una alineacion de 7 corredores para una clasica. Dispondra de un hueco para un corredor estrella que sera el que deberia ganar la carrera, un gregario de lujo para que le acompañe hasta el final o si sufre un percance el lider que pueda pelear y hacer un buen puesto. Ademas, se encontrara dos secciones correspondientes a gregarios normales y la de ayudante (tipico corredor que baja al coche por los bidones de agua y recoge el avituallamiento)
+                        </p>
+                        <div>
+                            <div id="arriba">
+                                <div class="row">
+                                    <div class="label">Estrella</div>
+                                </div>
+                                <div class="row">
+                                    <div class="label">Gregarios estrella</div>
+                                </div>
+                                <div class="row">
+                                    <div class="label">Gregarios normales</div>
+                                </div>
+                                <div class="row">
+                                    <div class="label">Ayudante</div>
+                                </div>
+                            </div>
+                            <h1>Corredores</h1>
+                            <div id="abajo">
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 1
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 2
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 3
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 4
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 5
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 6
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 7
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 8
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 9
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 10
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 11
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 12
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 13
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 14
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        let filas = document.querySelectorAll("#Clasica .row")
+                        let colores = ['green', '#9ACD32', 'yellow', 'orange']
+                        filas.forEach((fila,indice) => {
+                            let nombre = fila.querySelector(".label")
+                            nombre.style.backgroundColor = colores[indice]
+                        })
+                    </script>
+                    <div id="Vuelta" class="tab-pane">
+                        <p>En este apartado podra confeccionar una alineacion de 8 corredores para una vuelta por etapas. Dispondra de un hueco para un corredor estrella que sera el que deberia ganar la carrera, unos gregarios de montaña (ideal 3 o 4) que lo ayuden cuando la carretera se empine hacia arriba, y unos corredores todoterrenos que le puedan ayudar en un territorio como la media montaña. Tambien, se encontrara una seccion correspondientes a llaneros, los gregarios ue le ayudaran en las llegadas masivas al sprint para etar bien colocado y evitar caidas
+                        </p>
+                        <div>
+                            <h1>Tier List</h1>
+                            <div id="arriba">
+                                    <div class="row">
+                                        <div class="label">Estrella</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="label">Gregarios de montaña</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="label">Todoterrenos</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="label">Llaneros</div>
+                                    </div>
+                            </div>
+                            <h1>Corredores</h1>
+                            <div id="abajo">
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 1
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 2
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 3
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 4
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 5
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 6
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 7
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 8
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 9
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 10
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 11
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 12
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 13
+                                </div>
+                                <div class="list" draggable="true">
+                                    <img src="" alt="">
+                                    Corredor 14
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div id="form_equipo" class="tab-pane">
+                <p>
+                    En este apartado podra realizar acciones respecto a los distintos equipos ciclistas.
+                </p>
+                <form action="">
+                    <select name="equipos" id="select_equipos"></select>
+                </form>
+                <script>
+                    let url=new URL("http://localhost/Proyecto/Informacion_equipos_1.php")
+                    let requestObj = {method: "GET"}
+                    fetch(url,requestObj)
+                    .then((respuesta) => {
+                        if (response.ok) {
+                            return(response.text())
+                        } console.log("Ha ocurrido un error")
+                    .then((salida) => {
+                        const salida = document.getElementById("select_equipos")
+                        salida.innerHTML = salida
+                    })
+                    })
+                </script>
+            </div>
+            <div id="Enlaces" class="tab-pane">
+            <p>
+                En esta pagina encontrara enlaces a otras pagias web que pueden aportarle mas informacion
+            </p>
+            <div id="indep" class="collapse">
+                <ul id="ul_indep">
+                    <li>
+                        <a href="https://www.procyclingstats.com/index.php">Pro cycling stats</a>
+                    </li>
+                    <li>
+                        <a href="https://www.ciclo21.com/">Ciclo21</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="pag_of">
+                <ul id="ul_pag_of">
+                    <li>
+                        <a href="https://www.lavuelta.es/es">Vuelta a España</a>
+                    </li>
+                    <li>
+                        <a href="https://www.letour.fr/es">Tour de Francia</a>
+                    </li>
+                    <li>
+                        <a href="https://www.giroditalia.it/es/">Giro d'Italia</a>
+                    </li>
+                </ul>
+            </div>
+                <ul>
+                    
+                    <li>
+                        
+                    </li>
+                    <li>
+                        <ul id="periodicos">
+                            <li>
+                                <a href="https://as.com/ciclismo/?omnil=mpal">As</a>
+                            </li>  
+                            <li>
+                                <a href="https://www.marca.com/ciclismo.html?intcmp=MENUPROD&s_kw=ciclismo">Marca</a>
+                            </li>
+                            <li>
+                                <a href="https://www.mundodeportivo.com/ciclismo">Mundo Deportivo</a>
+                            </li>  
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

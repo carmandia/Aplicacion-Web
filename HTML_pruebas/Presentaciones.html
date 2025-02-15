@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="tab-pane" id="Dropdown_presentaciones">
+        <ul class="nav nav-tabs bg-dark">
+            <li class="nav-item">
+                <a href="#Previsualizacion_presentaciones" class="nav-link active" data-bs-toggle="tab">Pre-visualizacion</a>
+            </li>
+            <li>
+                <a href="#Consultas_presentaciones" class="nav-link" data-bs-toggle="tab">Consultas</a>
+            </li>
+            <li>
+                <a href="#Insercion_presentaciones" class="nav-link" data-bs-toggle="tab">Insercion</a>
+            </li>
+            <li>
+                <a href="#Actualizacion_presentaciones" class="nav-link" data-bs-toggle="tab">Actualizacion</a>
+            </li>
+            <li>
+                <a href="#Eliminacion_presentaciones" class="nav-link" data-bs-toggle="tab">Eliminacion</a>
+            </li>
+        </ul> <!-- ul para los tabs del Dorpdown_period_vincul-->
+        <div class="tab-content">
+            <div id="Previsualizacion_presentaciones" class="tab-pane active">
+                <div id="Estilos_Previsualizacion_presentaciones">
+                    <div id="salida_Previsualizacion_presentaciones"></div>
+                    <p>
+                        Aqui se muestra la tabla Equipos completa conforme se encuentra en la base de datos. La imagen de los maillots no se mostrara, solo en enlace para que vea como se inserta en la base de datos (si quiere ver las imagenes puede acceder al apartado Equipos de la pagina)
+                    </p>
+                    <script>
+                        let salida_Previsualizacion_presentaciones = document.getElementById("salida_Previsualizacion_presentaciones")
+                        let url_Previsualizacion_presentaciones = new URL("http://localhost/Proyecto/Previsualizacion_Presentacion.php")
+                        fetch(url_Previsualizacion_presentaciones)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.json())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let resultado = `<table><thead> <tr> <th colspan='7'> Tabla Presentacion Completa  </th> </tr>
+                                <tr> <td> Id </td> <td> Dorsal </td> <td> Nombre Equipo </td> <td> Id corredor </td> <td> Nombre Carrera </td> <td> Pos General </td> <td> Puntos UCI </td> </tr> </thead> <tbody> `
+                            for (let res of respuesta) {
+                                resultado += `<tr> <td> ${res.Id} </td> <td> ${res.Dorsal}  </td> <td> ${res.Equipo_Nombre}  </td> <td> ${res.Corredor_Id}  </td>
+                                <td> ${res.Carrera_Nombre}  </td> 
+                                <td> ${res.PosicionGen}  </td>
+                                <td> ${res.Ptos_UCI_posicionGen}  </td></tr>` 
+                            }
+                            resultado += `</tbody></table>`
+                            salida_Previsualizacion_presentaciones.innerHTML = resultado
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_presentaciones-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Eliminacion_presentaciones" class="tab-pane active">
+                <div id="Estilos_Eliminacion_presentaciones">
+                    <div id="salida_Eliminacion_presentaciones"></div>
+                    <p>
+                        Aqui se muestra la tabla Equipos completa conforme se encuentra en la base de datos. La imagen de los maillots no se mostrara, solo en enlace para que vea como se inserta en la base de datos (si quiere ver las imagenes puede acceder al apartado Equipos de la pagina)
+                    </p>
+                    <form action="">
+                        <label for="">Id de la presentacion que quiere eliminar</label>
+                        <select name="Eliminacion_select_Id_Presentacion" id="Eliminacion_select_Id_Presentacion"></select>
+                        <button type="button" id="btn_Eliminacion_presentaciones">Elimine el registro</button>
+                    </form>
+                    <script>
+                        let url_select_Presentaciones_Eliminacion = new URL("http://localhost/Proyecto/Select_Id_presentacion.php")
+                        fetch(url_select_Presentaciones_Eliminacion)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Eliminacion_select_Id_Presentacion = document.getElementById("Eliminacion_select_Id_Presentacion")
+                            Eliminacion_select_Id_Presentacion.innerHTML = respuesta
+                            let btn_Eliminacion_presentaciones = document.getElementById("btn_Eliminacion_presentaciones")
+                            btn_Eliminacion_presentaciones.addEventListener("click",() => {
+                                let id_pres = Eliminacion_select_Id_Presentacion.value
+                                let params = {Id : id_pres}
+                                let requestObj = {method: "POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Eliminacion_presentacion = new URL("http://localhost/Proyecto/Eliminacion_presentaciones.php")
+                                fetch(url_Eliminacion_presentacion,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Eliminacion_presentaciones = document.getElementById("salida_Eliminacion_presentaciones")
+                                    salida_Eliminacion_presentaciones.innerHTML = respuesta
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Eliminacion_presentaciones-->
+            </div> <!-- Div que cierra el tab-Pane de Eliminacion-->
+            <div id="Actualizacion_presentaciones" class="tab-pane active">
+                <div id="Estilos_Actualizacion_presentaciones">
+                    <p>
+                        Aqui se muestra la tabla Equipos completa conforme se encuentra en la base de datos. La imagen de los maillots no se mostrara, solo en enlace para que vea como se inserta en la base de datos (si quiere ver las imagenes puede acceder al apartado Equipos de la pagina)
+                    </p>
+                    <form action="">
+                        <label for="">Id de la presentacion que quiere Actualizar</label>
+                        <select name="Actualizacion_select_Id_Presentacion" id="Actualizacion_select_Id_Presentacion"></select>
+                        <br>
+                        <label for="">Nombre del Equipo</label>
+                        <select name="Actualizacion_select_NomEquipo_Presentacion" id="Actualizacion_select_NomEquipo_Presentacion"></select>
+                        <label for="">Id del corredor</label>
+                        <select name="Actualizacion_select_IdCorr_Presentacion" id="Actualizacion_select_IdCorr_Presentacion"></select>
+                        <label for="">Nombre de la carrera</label>
+                        <select name="Actualizacion_select_NomCarr_Presentacion" id="Actualizacion_select_NomCarr_Presentacion"></select>
+                        <label for="">Dorsal</label>
+                        <input type="number" id="Actualizacion_Dorsal_Presentacion">
+                        <label for="">Posicion General</label>
+                        <input type="number" id="Actualizacion_PosGen_Presentacion">
+                        <label for="">Puntos UCI Posicion General</label>
+                        <input type="number" id="Actualizacion_PtosUCI_Presentacion">
+                        <button type="button" id="btn_Actualizacion_presentaciones">Consultar</button>
+                    </form>
+                    <div id="salida_Actualizacion_presentaciones"></div>
+                    <script>
+                        let url_select_Presentaciones_Actualizacion = new URL("http://localhost/Proyecto/Select_Id_presentacion.php")
+                        fetch(url_select_Presentaciones_Actualizacion)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Actualizacion_select_Id_Presentacion = document.getElementById("Actualizacion_select_Id_Presentacion")
+                            Actualizacion_select_Id_Presentacion.innerHTML = respuesta
+                            let url_Actualizacion_select_NomEquipo_Presentacion = new URL("http://localhost/Proyecto/Select_Nombre_equipos.php")
+                            fetch(url_Actualizacion_select_NomEquipo_Presentacion)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let Actualizacion_select_NomEquipo_Presentacion = document.getElementById("Actualizacion_select_NomEquipo_Presentacion")
+                                Actualizacion_select_NomEquipo_Presentacion.innerHTML = respuesta
+                                let url_Actualizacion_select_IdCorr_Presentacion = new URL("http://localhost/Proyecto/Select_Id_corredores.php")
+                                fetch(url_Actualizacion_select_IdCorr_Presentacion)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.text())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let Actualizacion_select_IdCorr_Presentacion = document.getElementById("Actualizacion_select_IdCorr_Presentacion")
+                                    Actualizacion_select_IdCorr_Presentacion.innerHTML =respuesta
+                                    let url_Actualizacion_select_NomCarr_Presentacion = new URL("http://localhost/Proyecto/Select_Carrera.php")
+                                    fetch(url_Actualizacion_select_NomCarr_Presentacion)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.text())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let Actualizacion_select_NomCarr_Presentacion = document.getElementById("Actualizacion_select_NomCarr_Presentacion")
+                                        Actualizacion_select_NomCarr_Presentacion.innerHTML = respuesta
+                                        let btn_Actualizacion_presentaciones = document.getElementById("btn_Actualizacion_presentaciones")
+                                        btn_Actualizacion_presentaciones.addEventListener("click", () => {
+                                            let id = Actualizacion_select_Id_Presentacion.value
+                                            let corredor = Actualizacion_select_IdCorr_Presentacion.value
+                                            let equipo = Actualizacion_select_NomEquipo_Presentacion.value
+                                            let carrera = Actualizacion_select_NomCarr_Presentacion.value
+                                            let dorsal = document.getElementById("Actualizacion_Dorsal_Presentacion").value
+                                            let clasificacion = document.getElementById("Actualizacion_PosGen_Presentacion").value
+                                            let puntos = document.getElementById("Actualizacion_PtosUCI_Presentacion").value 
+                                            let params = {Id : id, Corredor: corredor, Equipo: equipo, Carrera: carrera, Dorsal : dorsal, Puntos: puntos, Clasificacion: clasificacion}
+                                            console.log(params)
+                                            let requestObj = {method:"POST"}
+                                            requestObj["body"] = JSON.stringify(params);
+                                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                            let url_Actualizacion_Presentacion = new URL("")
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Eliminacion_presentaciones-->
+            </div> <!-- Div que cierra el tab-Pane de Eliminacion-->
+            <div id="Insercion_presentaciones" class="tab-pane active">
+                <div id="Estilos_Insercion_presentaciones">
+                    <p>
+                        Aqui se muestra la tabla Equipos completa conforme se encuentra en la base de datos. La imagen de los maillots no se mostrara, solo en enlace para que vea como se inserta en la base de datos (si quiere ver las imagenes puede acceder al apartado Equipos de la pagina)
+                    </p>
+                    <form action="">
+                        <label for="">Nombre del Equipo</label>
+                        <select name="Insercion_select_NomEquipo_Presentacion" id="Insercion_select_NomEquipo_Presentacion"></select>
+                        <label for="">Id del corredor</label>
+                        <select name="Insercion_select_IdCorr_Presentacion" id="Insercion_select_IdCorr_Presentacion"></select>
+                        <label for="">Nombre de la carrera</label>
+                        <select name="Insercion_select_NomCarr_Presentacion" id="Insercion_select_NomCarr_Presentacion"></select>
+                        <label for="">Dorsal</label>
+                        <input type="number" id="Insercion_Dorsal_Presentacion">
+                        <label for="">Posicion General</label>
+                        <input type="number" id="Insercion_PosGen_Presentacion">
+                        <label for="">Puntos UCI Posicion General</label>
+                        <input type="number" id="Insercion_PtosUCI_Presentacion">
+                        <button type="button" id="btn_Insercion_presentaciones">Consultar</button>
+                    </form>
+                    <div id="salida_Insercion_presentaciones"></div>
+                    <script>
+                        let url_Insercion_select_NomEquipo_Presentacion = new URL("http://localhost/Proyecto/Select_Nombre_equipos.php")
+                        fetch(url_Insercion_select_NomEquipo_Presentacion)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Insercion_select_NomEquipo_Presentacion = document.getElementById("Insercion_select_NomEquipo_Presentacion")
+                            Insercion_select_NomEquipo_Presentacion.innerHTML = respuesta
+                            let url_Insercion_select_IdCorr_Presentacion = new URL("http://localhost/Proyecto/Select_Id_corredores.php")
+                            fetch(url_Insercion_select_IdCorr_Presentacion)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let Insercion_select_IdCorr_Presentacion = document.getElementById("Insercion_select_IdCorr_Presentacion")
+                                Insercion_select_IdCorr_Presentacion.innerHTML =respuesta
+                                let url_Insercion_select_NomCarr_Presentacion = new URL("http://localhost/Proyecto/Select_Carrera.php")
+                                fetch(url_Insercion_select_NomCarr_Presentacion)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.text())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let Insercion_select_NomCarr_Presentacion = document.getElementById("Insercion_select_NomCarr_Presentacion")
+                                    Insercion_select_NomCarr_Presentacion.innerHTML = respuesta
+                                    let btn_Insercion_presentaciones = document.getElementById("btn_Insercion_presentaciones")
+                                    btn_Insercion_presentaciones.addEventListener("click", () => {
+                                        let corredor = Insercion_select_IdCorr_Presentacion.value
+                                        let equipo = Insercion_select_NomEquipo_Presentacion.value
+                                        let carrera = Insercion_select_NomCarr_Presentacion.value
+                                        let dorsal = document.getElementById("Insercion_Dorsal_Presentacion").value
+                                        let clasificacion = document.getElementById("Insercion_PosGen_Presentacion").value
+                                        let puntos = document.getElementById("Insercion_PtosUCI_Presentacion").value 
+                                        let params = {Corredor: corredor, Equipo: equipo, Carrera: carrera, Dorsal : dorsal, Puntos: puntos, Clasificacion: clasificacion}
+                                        console.log(params)
+                                        let requestObj = {method:"POST"}
+                                        requestObj["body"] = JSON.stringify(params);
+                                        requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                        let url_Insercion_Presentacion = new URL("")
+                                    })
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Eliminacion_presentaciones-->
+            </div> <!-- Div que cierra el tab-Pane de Eliminacion-->
+            <div id="Consultas_presentaciones" class="tab-pane active">
+                <div id="Estilos_Consultas_presentaciones">
+                    <p>
+                        Aqui se muestra la tabla Equipos completa conforme se encuentra en la base de datos. La imagen de los maillots no se mostrara, solo en enlace para que vea como se inserta en la base de datos (si quiere ver las imagenes puede acceder al apartado Equipos de la pagina)
+                    </p>
+                    <form action="">
+                        <label for="">Id de la presentacion que quiere eliminar</label>
+                        <select name="Consultas_select_Id_Presentacion" id="Consultas_select_Id_Presentacion"></select>
+                        <button type="button" id="btn_Consultas_presentaciones">Consultar</button>
+                    </form>
+                    <div id="salida_Consultas_presentaciones"></div>
+                    <script>
+                        let url_select_Presentaciones_Consultas = new URL("http://localhost/Proyecto/Select_Id_presentacion.php")
+                        fetch(url_select_Presentaciones_Consultas)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Consultas_select_Id_Presentacion = document.getElementById("Consultas_select_Id_Presentacion")
+                            Consultas_select_Id_Presentacion.innerHTML = respuesta
+                            let btn_Consultas_presentaciones = document.getElementById("btn_Consultas_presentaciones")
+                            btn_Consultas_presentaciones.addEventListener("click",() => {
+                                let id_pres = Consultas_select_Id_Presentacion.value
+                                let params = {Id : id_pres}
+                                let requestObj = {method: "POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Consultas_presentacion = new URL("http://localhost/Proyecto/Consultas_presentaciones.php")
+                                fetch(url_Consultas_presentacion,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Consultas_presentaciones = document.getElementById("salida_Consultas_presentaciones")
+                                    let resultado = `<table><thead> <tr> <th colspan='7'> Tabla Presentacion con Id = ${id_pres}  </th> </tr>
+                                    <tr> <td> Id </td> <td> Dorsal </td> <td> Nombre Equipo </td> <td> Id corredor </td> <td> Nombre Carrera </td> <td> Pos General </td> <td> Puntos UCI </td> </tr> </thead> <tbody> `
+                                    for (let res of respuesta) {
+                                        resultado += `<tr> <td> ${res.Id} </td> <td> ${res.Dorsal}  </td> <td> ${res.Equipo_Nombre}  </td> <td> ${res.Corredor_Id}  </td>
+                                        <td> ${res.Carrera_Nombre}  </td> 
+                                        <td> ${res.PosicionGen}  </td>
+                                        <td> ${res.Ptos_UCI_posicionGen}  </td></tr>` 
+                                    }
+                                    resultado += `</tbody></table>`
+                                    salida_Consultas_presentaciones.innerHTML = resultado
+                                        })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Eliminacion_presentaciones-->
+            </div> <!-- Div que cierra el tab-Pane de Eliminacion-->
+        </div> <!-- Div que cierra el tab-content de la tabla vinc_presentaciones-->
+    </div> <!-- Div que cierra el tab-pane de la interaccion con la tabla vinc_presentaciones-->
+</body>
+</html>

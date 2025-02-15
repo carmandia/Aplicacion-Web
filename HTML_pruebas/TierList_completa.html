@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="Juego_clasica.css">
+    <link rel="stylesheet" href="Juego_vuelta.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head>
+<body>
+    <ul class="nav nav-tabs bg-dark">
+        <li class="nav-item">
+            <a href="#Clasica" class="nav-link active" data-bs-toggle="tab">Clasica</a>
+        </li>
+        <li>
+            <a href="#Vuelta" class="nav-link" data-bs-toggle="tab">Vuelta por etapas</a>
+        </li>
+    </ul> <!-- ul del nav-tabs para elegir entre clasica o vuelta-->
+    <div class="tab-content">
+        <div id="Clasica" class="tab-pane active">
+            <div id="estilos_clasica">
+            <p>En este apartado podra confeccionar una alineacion de 7 corredores para una clasica. Dispondra de un hueco para un corredor estrella que sera el que deberia ganar la carrera, un gregario de lujo para que le acompañe hasta el final o si sufre un percance el lider que pueda pelear y hacer un buen puesto. Ademas, se encontrara dos secciones correspondientes a gregarios normales y la de ayudante (tipico corredor que baja al coche por los bidones de agua y recoge el avituallamiento)
+            </p>
+                <div id="arriba_clasica" class="arriba">
+                    <div class="row">
+                        <div class="label">Estrella</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Gregarios estrella</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Gregarios normales</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Ayudante</div>
+                    </div>
+                </div> <!-- Div que cierra la parte de la tier list-->
+                <div id="lugar_boton_clasica">
+                    <button type="button" id="botonRefrescar_clasica" class="btn btn-secondary mt-2">Envie su TierList</button>
+                </div> <!-- Div para colocar el boton-->
+                <h1>Corredores</h1>
+                <div id="abajo_clasica">
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/24-01-03_ben-healy_our-team_1.jpg" alt="Ben Healy">
+                        Ben Healy
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/Alberto-Bettiol_EF_Education_First2020.jpg" alt="Alberto Bettiol">
+                        Alberto Bettiol
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/Jasper_Stuyven-Trek_segafredo-2020.jpg" alt="Jasper Stuyven">
+                        Jasper Stuyven
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/kasper_asgreen_deceuninck2021.jpeg" alt="Kasper Asgreen">
+                        Kasper Asgreen
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/Laporte.png" alt="Christophe Laporte">
+                        Christophe Laporte
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/Mads-Pedersen-Cham-Trek_segafredo-2020.jpg" alt="Mads Pedersen">
+                        Mads Pedersen
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/mathieu-van-der-poel.jpg" alt="Mathieu Van der Poel">
+                        Mathieu Van der Poel
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/Mohoric.jpg" alt="Matej Mohoric">
+                        Matej Mohoric
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/Pidcock.jpg" alt="Thomas Pidcock">
+                        Thomas Pidcock
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/tadej-pogacar.jpeg" alt="Tadej Pogacar">
+                        Tadej Pogacar
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/van_aert.webp" alt="Wout Van Aert">
+                        Wout Van Aert
+                    </div>
+                </div> <!-- Div que cierra la parte de abajo donde se incluyen las imagenes-->
+            </div><!-- Div que cierra la parte para darle estilo a la clasica-->
+            <script>
+                let filas_clasica = document.querySelectorAll("#arriba_clasica .row")
+                let colores = ['green', '#9ACD32', 'yellow', 'orange']
+                filas_clasica.forEach((fila,indice) => {
+                    let nombre = fila.querySelector(".label")
+                    nombre.style.backgroundColor = colores[indice]
+                })
+                let listas_clasica = document.querySelectorAll("#abajo_clasica .list")
+                let caja_arriba_clasica = document.getElementById("arriba_clasica")
+                let caja_abajo_clasica = document.getElementById("abajo_clasica")
+                let divs_arriba_clasica = caja_arriba_clasica.querySelectorAll("#arriba_clasica .row")
+                for (let lista of listas_clasica) {
+                    lista.addEventListener("dragstart",function (e) {
+                        let seleccionado = e.target
+        
+                        for (let clase of divs_arriba_clasica) {
+                            clase.addEventListener("dragover",function (e) {
+                                e.preventDefault()
+                            })
+                            clase.addEventListener("drop",function(e){
+                                clase.appendChild(seleccionado)
+                                seleccionado = null
+                            })
+                        }
+                        caja_abajo_clasica.addEventListener("dragover",function (e) {
+                            e.preventDefault()
+                        })
+                        caja_abajo_clasica.addEventListener("drop",function (e) {
+                            caja_abajo_clasica.appendChild(seleccionado)
+                            seleccionado = null
+                        })
+                    })
+                }
+                let boton_clasica = document.getElementById("botonRefrescar_clasica")
+                boton_clasica.addEventListener("click",() => {
+                    alert("Su TierList ha sido enviada de forma correcta")
+                    location.reload()
+                    
+                })
+            </script>
+        </div> <!-- Div que cierra el tab-pane de la Clasica-->
+        <div id="Vuelta" class="tab-pane">
+            <div class="mt-2" id="estilos_vuelta">
+            <p>En este apartado podra confeccionar una alineacion de 8 corredores para una vuelta por etapas. Dispondra de un hueco para un corredor estrella que sera el que deberia ganar la carrera, unos gregarios de montaña (ideal 3 o 4) que lo ayuden cuando la carretera se empine hacia arriba, y unos corredores todoterrenos que le puedan ayudar en un territorio como la media montaña. Tambien, se encontrara una seccion correspondientes a llaneros, los gregarios ue le ayudaran en las llegadas masivas al sprint para etar bien colocado y evitar caidas
+            </p>
+                <div id="arriba_vuelta" class="arriba">
+                    <div class="row">
+                        <div class="label">Estrella
+                        <div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Gregarios de montaña</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Todoterrenos</div>
+                    </div>
+                    <div class="row">
+                        <div class="label">Llaneros</div>
+                    </div>
+                </div> <!-- Div que cierra la parte de arriba-->
+                <div class="lugar_boton">
+                    <button type="button" id="botonRefrescar_vuelta" class="btn btn-secondary mt-2">Envie su TierList</button>
+                </div> <!-- Div para colocar bien el boton-->
+                <h1>Corredores</h1>
+                <div id="abajo_vuelta" class="abajo">
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/TadejPogacar-TPTDF23.jpg" alt="Tadej Pogacar">
+                        Tadej Pogacar
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Sobrero.jpg" alt="Matteo Sobrero">
+                        Matteo Sobrero
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/roglic-tour.jpg" alt="Primoz Roglic">
+                        Primoz Roglic
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Remco_Evenepoel_WC_2022.jpg" alt="Remco Evenepoel">
+                        Remco Evenepoel
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Majka.jpeg" alt="Rafal Majka">
+                        Rafal Majka
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Laengen.png" alt="Vegard Stake Laengen">
+                        Vegard Stake Laengen
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/kuss.jpg" alt="Sepp Kuss">
+                        Sepp Kuss
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/kelderman.png" alt="Wilco Kelderman">
+                        Wilco Kelderman
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/David_Gaudu,_Tadej_Pogačar,_Jonas_Vingegaard,_2023_Paris-Nice_(52929456925)_(cropped2).jpg" alt="Jonas Vingegaard">
+                        Jonas Vingegaard
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/chris-harper-2024.jpg" alt="Chris Harper">
+                        Chris Harper
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/van_aert.webp" alt="Wout Van Aert">
+                        Wout Van Aert
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Bjerg-website.png" alt="Mikkel Bjerg">
+                        Mikkel Bjerg
+                    </div>
+                </div> <!-- Div que cierra donde se colocan los corredores-->
+            </div> <!-- Div que cierra para darle estilos a la tier list-->
+            <script>
+                let filas_vuelta = document.querySelectorAll("#arriba_vuelta .row")
+                let colores_vuelta = ['green', '#9ACD32', 'yellow', 'orange']
+                filas_vuelta.forEach((fila,indice) => {
+                    let nombre = fila.querySelector(".label")
+                    nombre.style.backgroundColor = colores[indice]
+                })
+                let listas_vuelta = document.querySelectorAll("#abajo_vuelta .list")
+                let caja_arriba_vuelta = document.getElementById("arriba_vuelta")
+                let caja_abajo_vuelta = document.getElementById("abajo_vuelta")
+                let divs_arriba_vuelta = caja_arriba_vuelta.querySelectorAll("#arriba_vuelta .row")
+                for (let lista of listas_vuelta) {
+                    lista.addEventListener("dragstart",function (e) {
+                        let seleccionado = e.target
+        
+                        for (let clase of divs_arriba_vuelta) {
+                            clase.addEventListener("dragover",function (e) {
+                                e.preventDefault()
+                            })
+                            clase.addEventListener("drop",function(e){
+                                clase.appendChild(seleccionado)
+                                seleccionado = null
+                            })
+                        }
+                        caja_abajo_vuelta.addEventListener("dragover",function (e) {
+                            e.preventDefault()
+                        })
+                        caja_abajo_vuelta.addEventListener("drop",function (e) {
+                            caja_abajo_vuelta.appendChild(seleccionado)
+                            seleccionado = null
+                        })
+                    })
+                }
+                let boton_vuelta = document.getElementById("botonRefrescar_vuelta")
+                boton_vuelta.addEventListener("click",() => {
+                    alert("Su TierList ha sido enviada de forma correcta")
+                    location.reload()
+                    
+                })
+            </script> <!-- Script de la tier list de la vuelta-->
+        </div><!-- Div que cierra el tab-pane de la Vuelta-->
+    </div> <!-- Div que cierra el tab content para la clasica y la vuelta-->
+</body>
+</html>

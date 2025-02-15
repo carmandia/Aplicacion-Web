@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="Dropdown_gre_lid" class="tab-pane">
+        <ul class="nav nav-tabs bg-dark">
+            <li class="nav-item">
+                <a href="#Previsualizacion_gre_lid" class="nav-link active" data-bs-toggle="tab">Pre-visualizacion</a>
+            </li>
+            <li>
+                <a href="#Consultas_gre_lid" class="nav-link" data-bs-toggle="tab">Consultas</a>
+            </li>
+            <li>
+                <a href="#Insercion_gre_lid" class="nav-link" data-bs-toggle="tab">Insercion</a>
+            </li>
+            <li>
+                <a href="#Actualizacion_gre_lid" class="nav-link" data-bs-toggle="tab">Actualizacion</a>
+            </li>
+            <li>
+                <a href="#Eliminacion_gre_lid" class="nav-link" data-bs-toggle="tab">Eliminacion</a>
+            </li>
+        </ul> <!-- ul para los tabs del Dorpdown_gre_lid-->
+        <div class="tab-content">
+            <div id="Previsualizacion_gre_lid" class="tab-pane active">
+                <div id="Estilos_Previsualizacion_gre_lid">
+                    <p>
+                        En esta primera pagina podra observar todos los elementos que se incluyen en la base de datos de esta tabla, para que se haga una idea de la informacion ya insertada para posteriores acciones
+                    </p>
+                    <div id="salida_Previsualizacion_gre_lid"></div>
+                    <script>
+                        let salida_Previsualizacion_gre_lid = document.getElementById("salida_Previsualizacion_gre_lid")
+                        let url_Previsualizacion_gre_lid = new URL("http://localhost/Proyecto/Previsualizacion_gre_lid.php")
+                        fetch(url_Previsualizacion_gre_lid)
+                        .then((response) => {
+                            //console.log(response)
+                            if (response.ok) {
+                                return(response.json())
+                            } else{alert("El servidor puede estar caido")}
+                        })
+                        .then((respuesta) => {
+                            let resultado =`<table><thead><tr> <th colspan='2'> Tabla Lider-Gregario completa  </tr> </th>
+                                                    <tr> <td> Id Lider </td> <td> Id Gregario  </td></tr></thead> <tbody>`
+                            for (let resp of respuesta) {
+                                resultado += `<tr> <td> ${resp.Id_lider}  </td> <td> ${resp.Id_gregario}  </td> </tr>`
+                            }
+                            resultado += `</tbody></table>`
+                                salida_Previsualizacion_gre_lid.innerHTML = resultado
+                        })
+                    </script>
+                </div> <!-- Div para darle estilo a la Previsualizacion_gre_lid-->
+            </div> <!-- Div que cierra el tab-pane de la previsualizacion-->
+            <div id="Consultas_gre_lid" class="tab-pane">
+                <div id="Estilos_Consultas_gre_lid">
+                    <p>
+                        En esta parte podra consultar informacion acerca de algun elemento concreto de la pagina
+                    </p>
+                    <form action="">
+                        <label for="">Id del lider que quiere consultar</label>
+                        <select name="id_lider_Consultas_gre_lid" id="id_lider_Consultas_gre_lid"></select>
+                        <label for="">Id del gregario del que quiere consultar</label>
+                        <select name="id_gregario_Consultas_gre_lid" id="id_gregario_Consultas_gre_lid"></select>
+                    </form>
+                    <button type="button" id="btn_gre_lid_Consultas">Consultar</button>
+                    <div id="salida_Consultas_gre_lid"></div>
+                    <script>
+                        let select_id_lider = document.getElementById("id_lider_Consultas_gre_lid")
+                        let select_id_gregario = document.getElementById("id_gregario_Consultas_gre_lid")
+                        let url_select_Consultas_gre_lid = new URL("http://localhost/Proyecto/Select_gre_lid.php")
+                        fetch(url_select_Consultas_gre_lid)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.json())
+                            }
+                        })
+                        .then((respuesta) => {
+                            select_id_lider.innerHTML = respuesta[0]
+                            select_id_gregario.innerHTML = respuesta[1]
+                            let boton_Consultas_gre_lid = document.getElementById("btn_gre_lid_Consultas")
+                            boton_Consultas_gre_lid.addEventListener("click", () => {
+                                let salida_Consultas_gre_lid = document.getElementById("salida_Consultas_period_vincul")
+                                let id_lider_Consultas_gre_lid = select_id_lider.value
+                                let id_gregario_Consultas_gre_lid = select_id_gregario.value
+                                let params={Id_lider : id_lider_Consultas_gre_lid,Id_gregario : id_gregario_Consultas_gre_lid}
+                                //console.log(params)
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_consultas_greg_lid = new URL("http://localhost/Proyecto/Consultas_greg_lid.php");
+                                fetch(url_consultas_greg_lid,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let resultado =`<table><thead><tr> <th> Tabla resultante  </th> </tr></thead> <tbody>`
+                                    for (let resp of respuesta) {
+                                        resultado += `<tr> <td> ${resp.Id_lider} </td> <td> ${resp.Id_gregario} </td> </tr>`
+                                    }
+                                    resultado += `</tbody></table>`
+                                        salida_Insercion_paises.innerHTML = resultado
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div para darle estilo a la Consultas_gre_lid-->
+            </div> <!-- Div que cierra el tab-pane de la consulta-->
+            <div id="Insercion_gre_lid" class="tab-pane">
+                <div id="Estilos_Insercion_gre_lid">
+                    <p>
+                        En esta parte podra insertar paises en la tabla
+                    </p>
+                    <form action="">
+                        <label for="">Id del lider</label>
+                        <input type="number" name="id_Lider_gre_lid_Insercion" id="id_Lider_gre_lid_Insercion">
+                        <label for="">Id del gregario</label>
+                        <input type="number" name="id_Gregario_gre_lid_Insercion" id="id_Gregario_gre_lid_Insercion">
+                    </form>
+                    <button type="button" id="btn_gre_lid_Insercion">Consultar</button>
+                    <div id="salida_Insercion_gre_lid"></div>
+                    <script>
+                        let salida_Insercion_gre_lid = document.getElementById("salida_Insercion_gre_lid")
+                        let boton_Insercion_gre_lid = document.getElementById("btn_gre_lid_Insercion")
+                        boton_Consultas_gre_lid.addEventListener("click", () => {
+                            let lider_insercion= document.getElementById("id_Lider_gre_lid_Insercion")
+                            let greg_insercion = document.getElementById("id_Gregario_gre_lid_Insercion")
+                            let url = new URL("http://localhost/Proyecto/Insercion_gerg_lid.php")
+                            let params = {lider : lider_insercion.value,gregario : greg_insercion.value}
+                            console.log(params)
+                            let requestObj = {method: "POST"}
+                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                            requestObj["body"] = JSON.stringify(params) 
+                            //console.log(params)
+                            fetch(url,requestObj)
+                            .then((response) => {
+                                //console.log(response)
+                                if (response.ok) {
+                                    return(response.json())
+                                } else{alert("El servidor puede estar caido")}
+                            })
+                            .then((respuesta) => {
+                                console.log(respuesta)
+                                salida_Insercion_paises.innerHTML= respuesta
+                            })
+                            })
+                        
+                    </script>
+                </div> <!-- Div para darle estilo a la Insercion_gre_lid-->
+            </div> <!-- Div que cierra el tab-pane de la Insercion-->
+            <div id="Actualizacion_gre_lid" class="tab-pane">
+                <div id="Estilos_Actualizacion_gre_lid">
+                    <p>
+                        En esta parte podra actualizar paises en la tabla
+                    </p>
+                    <form action="">
+                        <label for="">Id del lider que quiere actualizar</label>
+                        <input type="number" id="id_lider_actual">
+                        <label for="">Id del gregario que quiere actualizar</label>
+                        <input type="number" id="id_gregario_actual">
+                        <label for="">Id nuevo del lider</label>
+                        <input type="number" id="id_lider_nuevo">
+                        <label for="">Id nuevo del gregario</label>
+                        <input type="number" id="id_gregario_nuevo">
+                    </form>
+                    <button type="button" id="btn_gre_lid_Actualizacion">Consultar</button>
+                    <div id="salida_Actualizacion_gre_lid"></div>
+                    <script>
+                        let boton_Actualizacion_paises = document.getElementById("btn_gre_lid_Actualizacion")
+                            boton_Actualizacion_paises.addEventListener("click", () => {
+                                let salida_Actualizacion_gre_lid = document.getElementById("salida_Actualizacion_gre_lid")
+                                let id_lider_ini = document.getElementById("id_lider_actual")
+                                let id_gregario_ini = document.getElementById("id_gregario_actual")
+                                let id_lider_nuevo = document.getElementById("id_lider_nuevo")
+                                let id_gregario_nuevo = document.getElementById("id_gregario_nuevo")
+                                let url = new URL("http://localhost/Proyecto/Actualizacion_paises.php")
+                                let params = {lider_actual : id_lider_ini, gregario_actual : id_gregario_ini, lider_nuevo: id_lider_nuevo, greg_nuevo: id_gregario_nuevo}
+                                console.log(params)
+                                let requestObj = {method: "POST"}
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                requestObj["body"] = JSON.stringify(params) 
+                                //console.log(params)
+                                fetch(url,requestObj)
+                                .then((response) => {
+                                    //console.log(response)
+                                    if (response.ok) {
+                                        return(response.json())
+                                    } else{alert("El servidor puede estar caido")}
+                                })
+                                .then((respuesta) => {
+                                    console.log(respuesta)
+                                    let resultado =`<table><thead><tr> <th> Tabla resultante  </tr> </th></thead> <tbody>`
+                                    for (let resp of respuesta) {
+                                        resultado += `<tr> <td> ${resp.Nombre} </tr> </td>`
+                                    }
+                                    resultado += `</tbody></table>`
+                                        salida_Actualizacion_paises.innerHTML = resultado
+                                })
+                                })
+                    </script>
+                </div> <!-- Div para darle estilo a la Actualizacion_gre_lid-->
+            </div> <!-- Div que cierra el tab-pane de la Actualizacion-->
+            <div id="Eliminacion_gre_lid" class="tab-pane">
+                <div id="Estilos_Eliminacion_gre_lid">
+                    <p>
+                        En esta parte podraeliminar datos que considere erroneos en la tabla
+                    </p>
+                    <form action="">
+                        <label for="">Nombre del pais que quiere eliminar</label>
+                        <select name="nombre_elim_pais" id="nombre_elim_pais">
+                        </select>
+                    </form>
+                    <button type="button" id="btn_Pais_Eliminacion">Consultar</button>
+                    <div id="salida_Eliminacion_paises"></div>
+                    <script>
+                        let select_elim_gre_lid = document.getElementById("nombre_elim_pais")
+                        let url_select_elim_gre_lid = new URL("http://localhost/Proyecto/Select_pais.php")
+                        fetch(url_select_elim)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            //console.log(respuesta)
+                            select_elim.innerHTML = respuesta
+                            let boton_Eliminacion_paises = document.getElementById("btn_Pais_Eliminacion")
+                            boton_Eliminacion_paises.addEventListener("click", () => {
+                                let nombre_elim = select.value
+                                let salida_Eliminacion_paises = document.getElementById("salida_Eliminacion_paises")
+                                let url = new URL("http://localhost/Proyecto/Eliminacion_paises.php")
+                                let params = {nombre : nombre_elim}
+                                console.log(params)
+                                let requestObj = {method: "POST"}
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                requestObj["body"] = JSON.stringify(params) 
+                                //console.log(params)
+                                fetch(url,requestObj)
+                                .then((response) => {
+                                    //console.log(response)
+                                    if (response.ok) {
+                                        return(response.json())
+                                    } else{alert("El servidor puede estar caido")}
+                                })
+                                .then((respuesta) => {
+                                    //console.log(respuesta)
+                                    salida_Eliminacion_paises.innerHTML = respuesta
+                                })
+                                })
+                        })
+                    </script>
+                </div> <!-- Div para darle estilo a la Eliminacion_gre_lid-->
+            </div> <!-- Div que cierra el tab-pane de la Eliminacion-->
+        </div> <!-- Div que cierra el tab content en el Dropdown_gre_lid-->
+    </div> <!-- Div que cierra el tab pane de la interaccion con la tabla gre_lid-->
+</body>
+</html>

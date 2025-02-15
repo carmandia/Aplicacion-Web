@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="Pag_Informacion.css">
+</head>
+<body>
+    <div class="tab-pane" id="Dropdown_result_etap">
+        <ul class="nav nav-tabs bg-dark">
+            <li class="nav-item">
+                <a href="#Previsualizacion_result_etap" class="nav-link active" data-bs-toggle="tab">Pre-visualizacion</a>
+            </li>
+            <li>
+                <a href="#Consultas_result_etap" class="nav-link" data-bs-toggle="tab">Consultas</a>
+            </li>
+            <li>
+                <a href="#Insercion_result_etap" class="nav-link" data-bs-toggle="tab">Insercion</a>
+            </li>
+            <li>
+                <a href="#Actualizacion_result_etap" class="nav-link" data-bs-toggle="tab">Actualizacion</a>
+            </li>
+            <li>
+                <a href="#Eliminacion_result_etap" class="nav-link" data-bs-toggle="tab">Eliminacion</a>
+            </li>
+        </ul> <!-- ul para los tabs del Dorpdown_period_vincul-->
+        <div class="tab-content">
+            <div id="Previsualizacion_result_etap" class="tab-pane active">
+                <div id="Estilos_Previsualizacion_result_etap" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui podra ver los distintos resultados de etapa que hay insertados en la base de datos
+                    </p>
+                    <div id="salida_Previsualizacion_result_etap"></div>
+                    <script>
+                        let salida_Previsualizacion_result_etap = document.getElementById("salida_Previsualizacion_result_etap")
+                        let url_Previsualizacion_result_etap = new URL("http://localhost/Proyecto/Previsualizacion_Corre.php")
+                        fetch(url_Previsualizacion_result_etap)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.json())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='5'> Tabla Corre Completa  </th> </tr>
+                                <tr> <td> Nombre Carrera </td> <td> Id Nº Etapa </td> <td> Id Presentacion </td> <td> Posiscion Etapa </td> <td> Puntos UCI </td> </tr> </thead> <tbody> `
+                            for (let res of respuesta) {
+                                resultado += `<tr> <td> ${res.Etapa_Carrera_nombre} </td> <td> ${res.Etapa_nº_etapa}  </td> <td> ${res.Presentacion_Id}  </td> <td> ${res.PosicionEtp}  </td>
+                                <td> ${res.PtosUCIposicionEtp}  </td></tr>` 
+                            }
+                            resultado += `</tbody></table>`
+                            salida_Previsualizacion_result_etap.innerHTML = resultado
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_result_etap-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Consultas_result_etap" class="tab-pane">
+                <div id="Estilos_Consultas_result_etap" class="estilos_Paginas">
+                    <p>
+                        En ete apartado puede consultar informacion acerca de un elemento que elija
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">De que elemento quiere conocer informacion</label>
+                        <select name="Opcion_Consultas_result_etap" id="Opcion_Consultas_result_etap" class="form-select">
+                            <option value=""></option>
+                            <option value="Car">Carrera</option>
+                            <option value="Id">Id Corredor</option>
+                        </select>
+                        <label for="" class="form-label">Dato a consultar</label>
+                        <select name="select_Consultas_result_etap" id="select_Consultas_result_etap" class="form-select"></select>
+                        <button type="button" id="btn_result_etap_Consultas" class="btn btn-primary">Consultar</button>
+                    </form>
+                    <div id="salida_Consultas_result_etap"></div>
+                    <script>
+                        let Opcion_Consultas_result_etap = document.getElementById("Opcion_Consultas_result_etap")
+                        Opcion_Consultas_result_etap.addEventListener("change",() => {
+                            switch (Opcion_Consultas_result_etap.value) {
+                                case "Car":
+                                    let url_select_Car = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                                    fetch(url_select_Car)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.text())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let select_Consultas_Carrera_result_etap = document.getElementById("select_Consultas_result_etap")
+                                        select_Consultas_Carrera_result_etap.innerHTML =respuesta
+                                        btn_Carrera_result_etap_Consultas = document.getElementById("btn_result_etap_Consultas")
+                                        btn_Carrera_result_etap_Consultas.addEventListener("click", () => {
+                                            let params = {metodo: "Car", Id:select_Consultas_Carrera_result_etap.value}
+                                            let url_consultas_Carrera_result_etap = new URL("http://localhost/Proyecto/Consultas_result_etap.php")
+                                            let requestObj = {method:"POST"}
+                                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                            requestObj["body"] = JSON.stringify(params) 
+                                            fetch(url_consultas_Carrera_result_etap,requestObj)
+                                            .then((response) => {
+                                                if (response.ok) {
+                                                    return(response.json())
+                                                }
+                                            })
+                                            .then((respuesta) => {
+                                                let salida_Consultas_Carrera_result_etap = document.getElementById("salida_Consultas_result_etap")
+                                                let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='5'> Tabla Corre Carrera = ${params.Id}  </th> </tr>
+                                                <tr> <td> Nombre Carrera </td> <td> Id Nº Etapa </td> <td> Id Presentacion </td> <td> Posiscion Etapa </td> <td> Puntos UCI </td> </tr> </thead> <tbody> `
+                                                for (let res of respuesta) {
+                                                    resultado += `<tr> <td> ${res.Etapa_Carrera_nombre} </td> <td> ${res.Etapa_nº_etapa}  </td> <td> ${res.Presentacion_Id}  </td> <td> ${res.PosicionEtp}  </td>
+                                                    <td> ${res.PtosUCIposicionEtp}  </td></tr>` 
+                                                }
+                                                resultado += `</tbody></table>`
+                                                salida_Consultas_Carrera_result_etap.innerHTML = resultado
+                                                })
+                                            })
+                                        })
+                                    break;
+                                case "Id":
+                                    let url_select_Id = new URL("http://localhost/Proyecto/Select_Id_presentacion.php")
+                                    fetch(url_select_Id)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.json())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let select_Consultas_Id_result_etap = document.getElementById("select_Consultas_result_etap")
+                                        select_Consultas_Id_result_etap.innerHTML =respuesta
+                                        btn_result_etap_Id_Consultas = document.getElementById("btn_result_etap_Consultas")
+                                        btn_result_etap_Id_Consultas.addEventListener("click", () => {
+                                            let params = {metodo: "Gre", Id:select_Consultas_Id_result_etap.value}
+                                            let url_consultas_Id_result_etap = new URL("http://localhost/Proyecto/Consultas_result_etap.php")
+                                            let requestObj = {method:"POST"}
+                                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                            requestObj["body"] = JSON.stringify(params)
+                                            fetch(url_consultas_Id_result_etap,requestObj)
+                                            .then((response) => {
+                                                if (response.ok) {
+                                                    return(response.json())
+                                                }
+                                            })
+                                            .then((respuesta) => {
+                                                let salida_Consultas_Id_result_etap = document.getElementById("salida_Consultas_result_etap")
+                                                let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='5'> Tabla Corre Presentacion = ${params.Id}  </th> </tr>
+                                                <tr> <td> Nombre Carrera </td> <td> Id Nº Etapa </td> <td> Id Presentacion </td> <td> Posiscion Etapa </td> <td> Puntos UCI </td> </tr> </thead> <tbody> `
+                                                for (let res of respuesta) {
+                                                    resultado += `<tr> <td> ${res.Etapa_Carrera_nombre} </td> <td> ${res.Etapa_nº_etapa}  </td> <td> ${res.Presentacion_Id}  </td> <td> ${res.PosicionEtp}  </td>
+                                                    <td> ${res.PtosUCIposicionEtp}  </td></tr>` 
+                                                }
+                                                resultado += `</tbody></table>`
+                                                salida_Consultas_Id_result_etap.innerHTML = resultado
+                                            })
+                                        })
+                                    })
+                                    break;
+                                default:
+                                    let select_Consultas_result_etap = document.getElementById("select_Consultas_result_etap")
+                                    select_Consultas_result_etap_lid.innerHTML= "<option value = ''></option>" 
+                                    btn_result_etap_Consultas = document.getElementById("btn_result_etap_Consultas")
+                                    btn_result_etap_Consultas.addEventListener("click", () => {
+                                        let salida_Consultas_result_etap = document.getElementById("salida_Consultas_result_etap")
+                                        salida_Consultas_result_etap.innerHTML = "Seleccione una opcion valida"     
+                                    })
+                                    break;
+                            }
+                        })
+                    </script>
+                </div> <!-- Div para darle estilo a la Consultas_gre_lid-->
+            </div> <!-- Div que cierra el tab-pane de la consulta-->
+            <div id="Insercion_result_etap" class="tab-pane">
+                <div id="Estilos_Insercion_result_etap" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui podra insertar informacion acerca del resultado de una etapa para una presentacion
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Carrera que quiere insertar</label>
+                        <select name="Carrera_Insercion_result_etap" id="Carrera_Insercion_result_etap" class="form-select"></select>
+                        <label for="" class="form-label">Id de la presentacion que quiere insertar</label>
+                        <select name="Id_Insercion_result_etap" id="Id_Insercion_result_etap" class="form-select"></select>
+                        <label for="" class="form-label">Etapa que quiere insertar</label>
+                        <select name="Etapa_Insercion_result_etap" id="Etapa_Insercion_result_etap" class="form-select"></select>
+                        <label for="" class="form-label">Posicion en la etapa</label>
+                        <input type="numer" id="Pos_Insercion_result_etap" class="form-control">
+                        <label for="" class="form-label">Puntos UCI</label>
+                        <input type="number" id="Puntos_Insercion_result_etap" class="form-control">
+                        <button type="button" id="btn_Insercion_result_etap" class="btn btn-primary">Insertar</button>
+                    </form>
+                    <div id="salida_Insercion_result_etap"></div>
+                    <script>
+                        let url_Carrera_Insercion_result_etap = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_Carrera_Insercion_result_etap)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_Insercion_result_etap = document.getElementById("Carrera_Insercion_result_etap")
+                            Carrera_Insercion_result_etap.innerHTML = respuesta
+                            let url_Id_Insercion_result_etap = new URL("http://localhost/Proyecto/Select_Id_presentacion.php")
+                            fetch(url_Id_Insercion_result_etap)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let Id_Insercion_result_etap = document.getElementById("Id_Insercion_result_etap")
+                                Id_Insercion_result_etap.innerHTML = respuesta
+                                let url_Etapa_Insercion_result_etap = new URL("http://localhost/Proyecto/Select_num_etapas.php")
+                                fetch(url_Etapa_Insercion_result_etap)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.text())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let Etapa_Insercion_result_etap = document.getElementById("Etapa_Insercion_result_etap")
+                                    Etapa_Insercion_result_etap.innerHTML = respuesta
+                                    let btn_Insercion_result_etap = document.getElementById("btn_Insercion_result_etap")
+                                    btn_Insercion_result_etap.addEventListener("click",() => {
+                                        let params = {Carrera:Carrera_Insercion_result_etap.value ,Corredor:Id_Insercion_result_etap.value ,Etapa:Etapa_Insercion_result_etap.value ,Pos: document.getElementById("Pos_Insercion_result_etap").value ,Ptos: document.getElementById("Puntos_Insercion_result_etap").value}
+                                        let requestObj = {method: "POST"}
+                                        requestObj["body"] = JSON.stringify(params);
+                                        requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                        let url_Insercion_result_etap = new URL("http://localhost/Proyecto/Insercion_result_etap.php")
+                                        fetch(url_Insercion_result_etap,requestObj)
+                                        .then((response) => {
+                                            if (response.ok) {
+                                                return(response.json())
+                                            }
+                                        })
+                                        .then((respuesta) => {
+                                            let salida_Insercion_result_etap = document.getElementById("salida_Insercion_result_etap")
+                                            salida_Insercion_result_etap.innerHTML =respuesta
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_result_etap-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Actualizacion_result_etap" class="tab-pane">
+                <div id="Estilos_Actualizacion_result_etap" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui puede actualizar infromacion de un resultado de una etapa
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Carrera que quiere actualizar</label>
+                        <select name="Carrera_Actualizacion_result_etap" id="Carrera_Actualizacion_result_etap" class="form-select"></select>
+                        <label for="" class="form-label">Id de la presentacion que quiere actualizar</label>
+                        <select name="Id_Actualizacion_result_etap" id="Id_Actualizacion_result_etap" class="form-select"></select>
+                        <label for="" class="form-label">Etapa que quiere actualizar</label>
+                        <select name="Etapa_Actualizacion_result_etap" id="Etapa_Actualizacion_result_etap" class="form-select"></select>
+                        <label for="" class="form-label">Posicion en la etapa</label>
+                        <input type="numer" id="Pos_Actualizacion_result_etap" class="form-control">
+                        <label for="" class="form-label">Puntos UCI</label>
+                        <input type="number" id="Puntos_Actualizacion_result_etap" class="form-control">
+                        <button type="button" id="btn_Actualizacion_result_etap" class="btn btn-primary">Actualizar</button>
+                    </form>
+                    <div id="salida_Actualizacion_result_etap"></div>
+                    <script>
+                        let url_Carrera_Actualizacion_result_etap = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_Carrera_Actualizacion_result_etap)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_Actualizacion_result_etap = document.getElementById("Carrera_Actualizacion_result_etap")
+                            Carrera_Actualizacion_result_etap.innerHTML = respuesta
+                            let url_Id_Actualizacion_result_etap = new URL("http://localhost/Proyecto/Select_Id_presentacion.php")
+                            fetch(url_Id_Actualizacion_result_etap)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let Id_Actualizacion_result_etap = document.getElementById("Id_Actualizacion_result_etap")
+                                Id_Actualizacion_result_etap.innerHTML = respuesta
+                                let url_Etapa_Actualizacion_result_etap = new URL("http://localhost/Proyecto/Select_num_etapas.php")
+                                fetch(url_Etapa_Actualizacion_result_etap)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.text())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let Etapa_Actualizacion_result_etap = document.getElementById("Etapa_Actualizacion_result_etap")
+                                    Etapa_Actualizacion_result_etap.innerHTML = respuesta
+                                    let btn_Actualizacion_result_etap = document.getElementById("btn_Actualizacion_result_etap")
+                                    btn_Actualizacion_result_etap.addEventListener("click",() => {
+                                        let params = {Carrera:Carrera_Actualizacion_result_etap.value ,Corredor:Id_Actualizacion_result_etap.value ,Etapa:Etapa_Actualizacion_result_etap.value ,Pos: document.getElementById("Pos_Actualizacion_result_etap").value ,Ptos: document.getElementById("Puntos_Actualizacion_result_etap").value}
+                                        let requestObj = {method: "POST"}
+                                        requestObj["body"] = JSON.stringify(params);
+                                        requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                        let url_Actualizacion_result_etap = new URL("http://localhost/Proyecto/Actualizacion_result_etap.php")
+                                        fetch(url_Actualizacion_result_etap,requestObj)
+                                        .then((response) => {
+                                            if (response.ok) {
+                                                return(response.json())
+                                            }
+                                        })
+                                        .then((respuesta) => {
+                                            let salida_Actualizacion_result_etap = document.getElementById("salida_Actualizacion_result_etap")
+                                            salida_Actualizacion_result_etap.innerHTML =respuesta
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_result_etap-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Eliminacion_result_etap" class="tab-pane">
+                <div id="Estilos_Eliminacion_result_etap" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui podra eliminar el dato de una presentacion para una etapa por ejemplo por elhecho de que haya abandonado o algo similar
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Carrera que quiere eliminar</label>
+                        <select name="Carrera_Eliminacion_result_etap" id="Carrera_Eliminacion_result_etap" class="form-select"></select>
+                        <label for="" class="form-label">Id de la presentacion que quiere eliminar</label>
+                        <select name="Id_Eliminacion_result_etap" id="Id_Eliminacion_result_etap" class="form-select"></select>
+                        <label for="" class="form-label">Etapa que quiere eliminar</label>
+                        <select name="Etapa_Eliminacion_result_etap" id="Etapa_Eliminacion_result_etap" class="form-select"></select>
+                        <button type="button" id="btn_Eliminacion_result_etap"  class="btn btn-primary">Eliminar</button>
+                    </form>
+                    <div id="salida_Eliminacion_result_etap"></div>
+                    <script>
+                        let url_Carrera_Eliminacion_result_etap = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_Carrera_Eliminacion_result_etap)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_Eliminacion_result_etap = document.getElementById("Carrera_Insercion_result_etap")
+                            Carrera_Eliminacion_result_etap.innerHTML = respuesta
+                            let url_Id_Eliminacion_result_etap = new URL("http://localhost/Proyecto/Select_Id_presentacion.php")
+                            fetch(url_Id_Eliminacion_result_etap)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let Id_Eliminacion_result_etap = document.getElementById("Id_Eliminacion_result_etap")
+                                Id_Eliminacion_result_etap.innerHTML = respuesta
+                                let url_Etapa_Eliminacion_result_etap = new URL("http://localhost/Proyecto/Select_num_etapas.php")
+                                fetch(url_Etapa_Eliminacion_result_etap)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.text())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let Etapa_Eliminacion_result_etap = document.getElementById("Etapa_Eliminacion_result_etap")
+                                    Etapa_Eliminacion_result_etap.innerHTML = respuesta
+                                    let btn_Eliminacion_result_etap = document.getElementById("btn_Eliminacion_result_etap")
+                                    btn_Eliminacion_result_etap.addEventListener("click",() => {
+                                        let params = {Carrera:Carrera_Eliminacion_result_etap.value ,Corredor:Id_Eliminacion_result_etap.value ,Etapa:Etapa_Eliminacion_result_etap.value}
+                                        let requestObj = {method: "POST"}
+                                        requestObj["body"] = JSON.stringify(params);
+                                        requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                        let url_Eliminacion_result_etap = new URL("http://localhost/Proyecto/Actualizacion_result_etap.php")
+                                        fetch(url_Eliminacion_result_etap,requestObj)
+                                        .then((response) => {
+                                            if (response.ok) {
+                                                return(response.json())
+                                            }
+                                        })
+                                        .then((respuesta) => {
+                                            let salida_Eliminacion_result_etap = document.getElementById("salida_Eliminacion_result_etap")
+                                            salida_Eliminacion_result_etap.innerHTML =respuesta
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_result_etap-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+        </div> <!-- Div que cierra el tab-content de la tabla vinc_result_etap-->
+    </div> <!-- Div que cierra el tab-pane de la interaccion con la tabla vinc_result_etap-->
+</body>
+</html>

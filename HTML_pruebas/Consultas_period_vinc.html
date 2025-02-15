@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+        <label for="">Año Inicio vinculacion</label>
+        <select name="select_consulta_año_inicio_vinc" id="select_consulta_año_inicio_vinc"></select>
+        <label for="">Año fin vinculacion</label>
+        <select name="select_consulta_año_fin_vinc" id="select_consulta_año_fin_vinc"></select>
+    </form>
+    <button type="button" id="btn_period_vincul_Consultas">Consultar</button>
+    <div id="salida_Consultas_period_vincul"></div>
+    <script>
+        let select_consulta_año_inicio_vinc = document.getElementById("select_consulta_año_inicio_vinc")
+        let select_consulta_año_fin_vinc = document.getElementById("select_consulta_año_fin_vinc")
+        let url_selects_consulta_period_vinc = new URL("http://localhost/Proyecto/Select_period_vinc.php")
+        fetch(url_selects_consulta_period_vinc)
+        .then((response) => {
+            if (response.ok) {
+                return(response.json())
+            }
+        })
+        .then((respuestajson) => {
+            //console.log(respuestajson)
+            select_consulta_año_inicio_vinc.innerHTML=respuestajson[0]
+            select_consulta_año_fin_vinc.innerHTML=respuestajson[1]
+            let boton_Consultas_period_vincul = document.getElementById("btn_period_vincul_Consultas")
+            boton_Consultas_period_vincul.addEventListener("click",()=>{
+                let salida_Consultas_period_vincul = document.getElementById("salida_Consultas_period_vincul")
+                let ano_inicio_cons_period_vinc= select_consulta_año_inicio_vinc.value
+                let ano_fin_cons_period_vinc = select_consulta_año_fin_vinc.value
+                let url = new URL("http://localhost/Proyecto/Consultas_period_vinc.php")
+                let params = {ano_inicio : ano_inicio_cons_period_vinc,
+                    ano_fin : ano_fin_cons_period_vinc}
+                let requestObj = {method: "POST", body: JSON.stringify(params)}
+                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                //requestObj["body"] = JSON.stringify(params) 
+                console.log(params)
+                fetch(url,requestObj)
+                .then((response2) => {
+                    //console.log(response)
+                    if (response2.ok) {
+                        console.log(response2.json())
+                        return(response2.json())
+                    } else{alert("El servidor puede estar caido")}
+                })
+                .then((respuesta) => {
+                    console.log(respuesta)
+                    let resultado =`<table><thead><tr> <th colspan='2'> Tabla resultante   </th> </tr></thead> <tbody>`
+                    for (let resp of respuesta) {
+                        resultado += `<tr> <td> ${resp.Año_inicio_vinc}  </td> <td> ${resp.Año_fin_vinc}  </td> </tr>`
+                    }
+                    resultado += `</tbody></table>`
+                        salida_Consultas_period_vincul.innerHTML = resultado
+                })
+                })
+                })
+    </script>
+</body>
+</html>

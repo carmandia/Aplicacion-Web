@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="Pag_Informacion.css">
+</head>
+<body>
+    <div class="tab-pane" id="Dropdown_etapas">
+        <ul class="nav nav-tabs bg-dark">
+            <li class="nav-item">
+                <a href="#Previsualizacion_etapas" class="nav-link active" data-bs-toggle="tab">Pre-visualizacion</a>
+            </li>
+            <li>
+                <a href="#Consultas_etapas" class="nav-link" data-bs-toggle="tab">Consultas</a>
+            </li>
+            <li>
+                <a href="#Insercion_etapas" class="nav-link" data-bs-toggle="tab">Insercion</a>
+            </li>
+            <li>
+                <a href="#Actualizacion_etapas" class="nav-link" data-bs-toggle="tab">Actualizacion</a>
+            </li>
+            <li>
+                <a href="#Eliminacion_etapas" class="nav-link" data-bs-toggle="tab">Eliminacion</a>
+            </li>
+        </ul> <!-- ul para los tabs del Dorpdown_period_vincul-->
+        <div class="tab-content">
+            <div id="Previsualizacion_etapas" class="tab-pane active">
+                <div id="Estilos_Previsualizacion_etapas" class="estilos_Paginas">
+                    <div id="salida_Previsualizacion_etapas"></div>
+                    <p>
+                        Aqui puede consultar de manera rapida todos los elementos de la tabla Etapas
+                    </p>
+                    <div id="salida_Previsualizacion_etapas"></div>
+                    <script>
+                        let salida_Previsualizacion_etapas = document.getElementById("salida_Previsualizacion_etapas")
+                        let url_Previsualizacion_etapas = new URL("http://localhost/Proyecto/Previsualizacion_Etapa.php")
+                        fetch(url_Previsualizacion_etapas)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.json())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='4'> Tabla Etapas Completa  </th> </tr>
+                                <tr> <td> Nombre Carrera </td> <td> Distancia </td> <td> Altimetria </td> <td> Nº de Etapa </td></tr> </thead> <tbody> `
+                            for (let res of respuesta) {
+                                resultado += `<tr> <td> ${res.Carrera_nombre} </td> <td> ${res.Distancia}  </td> <td> ${res.Altimetria}  </td> <td> ${res.nº_etapa}  </td></tr>` 
+                            }
+                            resultado += `</tbody></table>`
+                            salida_Previsualizacion_etapas.innerHTML = resultado
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_etapas-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Consultas_etapas" class="tab-pane ">
+                <div id="Estilos_Consultas_etapas" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui puede consultar las etapas de una carrera concreta
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione que carrera quiere consultar</label>
+                        <select name="consulta_etapas_Consultas" id="consulta_etapas_Consultas" class="form-select"></select>
+                        <button type="button" id="btn_Consultas_etapas" class="btn btn-primary">Consultar</button>
+                    </form>
+                    <div id="salida_Consultas_etapas"></div>
+                    <script>
+                        let url_consulta_etapas_Consultas = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_consulta_etapas_Consultas)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let consulta_etapas_Consultas = document.getElementById("consulta_etapas_Consultas")
+                            consulta_etapas_Consultas.innerHTML =respuesta
+                            let btn_Consultas_etapas = document.getElementById("btn_Consultas_etapas")
+                            btn_Consultas_etapas.addEventListener("click",() => {
+                                let params = {Carrera:consulta_etapas_Consultas.value}
+                                let requestObj = {method:"POST"}
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                requestObj["body"] = JSON.stringify(params)
+                                let url_Consultas_Carreras = new URL("http://localhost/Proyecto/Consultas_Etapas.php")
+                                fetch(url_Consultas_Carreras,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Consultas_etapas = document.getElementById("salida_Consultas_etapas")
+                                    let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='4'> Tabla Etapas Carrera = ${params.Carrera}  </th> </tr>
+                                    <tr> <td> Nombre Carrera </td> <td> Distancia </td> <td> Altimetria </td> <td> Nº de Etapa </td></tr> </thead> <tbody> `
+                                    for (let res of respuesta) {
+                                    resultado += `<tr> <td> ${res.Carrera_nombre} </td> <td> ${res.Distancia}  </td> <td> ${res.Altimetria}  </td> <td> ${res.nº_etapa}  </td></tr>` 
+                                    }
+                                    resultado += `</tbody></table>`
+                                    salida_Consultas_etapas.innerHTML = resultado
+                                }) 
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Consultas_etapasa-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Eliminacion_etapas" class="tab-pane ">
+                <div id="Estilos_Eliminacion_etapas" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui podra eliminar la etapa de una carrera que desee
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione que carrera quiere eliminar</label>
+                        <select name="consulta_etapas_Eliminacion" id="consulta_etapas_Eliminacion" class="form-select"></select>
+                        <label for="" class="form-label">Seleccione que etapa quiere eliminar</label>
+                        <select name="etapa_etapas_Eliminacion" id="etapa_etapas_Eliminacion" class="form-select"></select>
+                        <button type="button" id="btn_Eliminacion_etapas" class="btn btn-primary">Eliminar</button>
+                    </form>
+                    <div id="salida_Eliminacion_etapas"></div>
+                    <script>
+                        let url_consulta_etapas_Eliminacion = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_consulta_etapas_Eliminacion)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let consulta_etapas_Eliminacion = document.getElementById("consulta_etapas_Eliminacion")
+                            consulta_etapas_Eliminacion.innerHTML =respuesta
+                            let url_etapa_etapas_Eliminacion = new URL("http://localhost/Proyecto/Select_num_etapas.php")
+                            fetch(url_etapa_etapas_Eliminacion)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let etapa_etapas_Eliminacion = document.getElementById("etapa_etapas_Eliminacion")
+                                etapa_etapas_Eliminacion.innerHTML = respuesta
+                                let btn_Eliminacion_etapas = document.getElementById("btn_Eliminacion_etapas")
+                                btn_Eliminacion_etapas.addEventListener("click",() => {
+                                    let params ={Carrera: consulta_etapas_Eliminacion.value, Etapa:etapa_etapas_Eliminacion.value}
+                                    let requestObj = {method:"POST"}
+                                    requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                    requestObj["body"] = JSON.stringify(params)
+                                    let url_Eliminacion_Etapas = new URL("http://localhost/Proyecto/Eliminacion_Etapas.php")
+                                    fetch(url_Eliminacion_Etapas,requestObj)
+                                    .then((response) => {
+                                        if (response.ok) {
+                                            return(response.json())
+                                        }
+                                    })
+                                    .then((respuesta) => {
+                                        let salida_Eliminacion_etapas = document.getElementById("salida_Eliminacion_etapas")
+                                        salida_Eliminacion_etapas.innerHTML = respuesta
+                                    })
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Eliminacion_carreras-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Insercion_etapas" class="tab-pane ">
+                <div id="Estilos_Insercion_etapas" class="estilos_Paginas">
+                    
+                    <p>
+                        En eta pagina podra insertar etapas en una carrera que considere que falta
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione que carrera quiere Insertar</label>
+                        <select name="consulta_etapas_Insercion" id="consulta_etapas_Insercion" class="form-select"></select>
+                        <label for="" class="form-label">Etapa a insertar</label>
+                        <input type="number" id="etapa_etapas_Insercion" class="form-control">
+                        <label for="" class="form-label">Distancia</label>
+                        <input type="number" id="dist_etapas_Insercion" class="form-control">
+                        <label for="" class="form-label">Altimetria</label>
+                        <input type="number" id="altim_etapas_Insercion" class="form-control">
+                        <button type="button" id="btn_Insercion_etapas" class="btn btn-primary">Insertar</button>
+                    </form>
+                    <div id="salida_Insercion_etapas"></div>
+                    <script>
+                        let url_consulta_etapas_Insercion = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_consulta_etapas_Insercion)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let consulta_etapas_Insercion = document.getElementById("consulta_etapas_Insercion")
+                            consulta_etapas_Insercion.innerHTML =respuesta
+                            let btn_Insercion_etapas = document.getElementById("btn_Insercion_etapas")
+                            btn_Insercion_etapas.addEventListener("click", () => {
+                                let params = {Carrera:consulta_etapas_Insercion.value, Etapa: document.getElementById("etapa_etapas_Insercion").value, Dist:document.getElementById("dist_etapas_Insercion"), Alt: document.getElementById("altim_etapas_Insercion").value}
+                                let requestObj = {method:"POST"}
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                requestObj["body"] = JSON.stringify(params)
+                                let url_Insercion_Etapas = new URL("http://localhost/Proyecto/Insercion_Etapas.php")
+                                fetch(url_Insercion_Etapas,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Insercion_etapas = document.getElementById("salida_Insercion_etapas")
+                                    salida_Insercion_etapas.innerHTML = respuesta
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Eliminacion_carreras-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Actualizacion_etapas" class="tab-pane ">
+                <div id="Estilos_Actualizacion_etapas" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui puede actualizar informacion acerca de una etapa de una carrera
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione que carrera quiere actulizar</label>
+                        <select name="consulta_etapas_Actualizacion" id="consulta_etapas_Actualizacion" class="form-select"></select>
+                        <label for="" class="form-label">Etapa a actualizar</label>
+                        <select name="etapa_etapas_Actualizacion" id="etapa_etapas_Actualizacion" class="form-select"></select>
+                        <label for="" class="form-label">Distancia</label>
+                        <input type="number" id="dist_etapas_Actualizacion" class="form-control">
+                        <label for="" class="form-label">Altimetria</label>
+                        <input type="number" id="altim_etapas_Actualizacion" class="form-control">
+                        <button type="button" id="btn_Actualizacion_etapas" class="btn btn-primary">Actualizar</button>
+                    </form>
+                    <div id="salida_Actualizacion_etapas"></div>
+                    <script>
+                        let url_consulta_etapas_Actualizacion = new URL("http://localhost/Proyecto/Select_Carrera_por_etapas.php")
+                        fetch(url_consulta_etapas_Actualizacion)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let consulta_etapas_Actualizacion = document.getElementById("consulta_etapas_Actualizacion")
+                            consulta_etapas_Actualizacion.innerHTML =respuesta
+                            let url_etapa_etapas_Actualizacion = new URL("http://localhost/Proyecto/Select_num_etapas.php")
+                            fetch(url_etapa_etapas_Actualizacion)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.text())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let etapa_etapas_Actualizacion = document.getElementById("etapa_etapas_Actualizacion")
+                                etapa_etapas_Actualizacion.innerHTML = respuesta
+                                let btn_Actualizacion_etapas = document.getElementById("btn_Actualizacion_etapas")
+                                btn_Actualizacion_etapas.addEventListener("click", () => {
+                                    let params = {Carrera: consulta_etapas_Actualizacion.value, Etapa: etapa_etapas_Actualizacion.value,
+                                        Dist: document.getElementById("dist_etapas_Actualizacion").value, Alt: document.getElementById("altim_etapas_Actualizacion").value}
+                                        let requestObj = {method:"POST"}
+                                        requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                        requestObj["body"] = JSON.stringify(params)
+                                        let url_Actualizacion_etapas = new URL("http://localhost/Proyecto/Actualizacion_Etapas.php")
+                                        fetch(url_Actualizacion_etapas,requestObj)
+                                        .then((response) => {
+                                            if (response.ok) {
+                                                return(response.json())
+                                            }
+                                        })
+                                        .then((respuesta) => {
+                                            let salida_Actualizacion_etapas = document.getElementById("salida_Actualizacion_etapas")
+                                            salida_Actualizacion_etapas.innerHTML=respuesta
+                                        })
+                                })
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Eliminacion_carreras-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+        </div> <!-- Div que cierra el tab-content de la tabla vinc_etapas-->
+    </div> <!-- Div que cierra el tab-pane de la interaccion con la tabla vinc_etapas-->
+</body>
+</html>

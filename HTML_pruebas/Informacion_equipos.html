@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        En este apartado podra realizar acciones respecto a los distintos equipos ciclistas.
+    </p>
+    <form action="Informacion_equipos_1.php">
+        <select name="equipos" id="select_equipos"></select>
+    </form>
+    <script>
+        let url = new URL("http://localhost/Proyecto/Informacion_equipos_1.php")
+        fetch(url)
+        .then((response) => {
+            if (response.ok) {
+                return(response.text())
+            } else {console.log("Ha ocurrido un error")}
+        })
+        .then((salida) => {
+            const sal = document.getElementById("select_equipos")
+            sal.innerHTML = salida
+            function inf_equip(equipo_nom) {
+            const url = new URL("http://localhost/Proyecto/Informacion_equipos_2.php")
+            const requestObj = {method:"GET"}
+            const params = {equipo: equipo_nom.value}
+            url.searchParams.append("equipo",params.equipo)
+            //console.log(url)
+            fetch(url,requestObj)
+            .then((respuesta) => {
+                console.log(respuesta)
+                if (repuesta.ok) {
+                    return(respuesta.text())
+                } else {alert("Hubo un error al llamar al php")}
+            })
+            .then((salida) => {
+                let div_tabla= document.createElement("div")
+                div_tabla.append(salida)
+            })
+        }
+        let sel = document.getElementById("select_equipos")
+        inf_equip(sel.value)
+        sel.addEventListener("change",inf_equip(sel.value))
+        })
+        /*function inf_equip(equipo_nom) {
+            const url = new URL("http://localhost/Proyecto/Informacion_equipos_2.php")
+            const requestObj = {method:"GET"}
+            const params = {equipo: equipo_nom.value}
+            url.searchParams.append("equipo",params.equipo)
+            fetch(url,requestObj)
+            .then((respuesta) => {
+                if (repuesta.ok) {
+                    return(respuesta.text())
+                } else {alert("Hubo un error al llamar al php")}
+            })
+            .then((salida) => {
+                let div_tabla= document.createElement("div")
+                div_tabla.append(salida)
+            })
+        }
+        let sel = document.getElementById("select_equipos")
+        inf_equip(sel.value)
+        sel.addEventListener("change",inf_equip(sel.value))*/
+    </script>
+</body>
+</html>

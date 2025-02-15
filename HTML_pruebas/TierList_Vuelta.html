@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Juego_vuelta.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="Juego">
+        <div id="Vuelta" class="tab-pane">
+            <div id="estilos_vuelta">
+            <p>En este apartado podra confeccionar una alineacion de 8 corredores para una vuelta por etapas. Dispondra de un hueco para un corredor estrella que sera el que deberia ganar la carrera, unos gregarios de montaña (ideal 3 o 4) que lo ayuden cuando la carretera se empine hacia arriba, y unos corredores todoterrenos que le puedan ayudar en un territorio como la media montaña. Tambien, se encontrara una seccion correspondientes a llaneros, los gregarios ue le ayudaran en las llegadas masivas al sprint para etar bien colocado y evitar caidas
+            </p>
+            <div>
+                <div id="arriba_vuelta">
+                        <div class="row">
+                            <div class="label">Estrella</div>
+                        </div>
+                        <div class="row">
+                            <div class="label">Gregarios de montaña</div>
+                        </div>
+                        <div class="row">
+                            <div class="label">Todoterrenos</div>
+                        </div>
+                        <div class="row">
+                            <div class="label">Llaneros</div>
+                        </div>
+                </div>
+                <div id="lugar_boton_vuelta" class="mt-2">
+                <button type="button" id="botonRefrescar_vuelta" class="btn btn-secondary">Envie su TierList</button>
+                </div>
+                <h1>Corredores</h1>
+                <div id="abajo_vuelta">
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/TadejPogacar-TPTDF23.jpg" alt="Tadej Pogacar">
+                        Tadej Pogacar
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Sobrero.jpg" alt="Matteo Sobrero">
+                        Matteo Sobrero
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/roglic-tour.jpg" alt="Primoz Roglic">
+                        Primoz Roglic
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Remco_Evenepoel_WC_2022.jpg" alt="Remco Evenepoel">
+                        Remco Evenepoel
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Majka.jpeg" alt="Rafal Majka">
+                        Rafal Majka
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Laengen.png" alt="Vegard Stake Laengen">
+                        Vegard Stake Laengen
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/kuss.jpg" alt="Sepp Kuss">
+                        Sepp Kuss
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/kelderman.png" alt="Wilco Kelderman">
+                        Wilco Kelderman
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/David_Gaudu,_Tadej_Pogačar,_Jonas_Vingegaard,_2023_Paris-Nice_(52929456925)_(cropped2).jpg" alt="Jonas Vingegaard">
+                        Jonas Vingegaard
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/chris-harper-2024.jpg" alt="Chris Harper">
+                        Chris Harper
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Clasica/van_aert.webp" alt="Wout Van Aert">
+                        Wout Van Aert
+                    </div>
+                    <div class="list" draggable="true">
+                        <img src="Corredores/Vuelta/Bjerg-website.png" alt="Mikkel Bjerg">
+                        Mikkel Bjerg
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        <script>
+            let filas_vuelta = document.querySelectorAll("#arriba_vuelta .row")
+            let colores = ['green', '#9ACD32', 'yellow', 'orange']
+            filas_vuelta.forEach((fila,indice) => {
+                let nombre = fila.querySelector(".label")
+                nombre.style.backgroundColor = colores[indice]
+            })
+            let listas_vuelta = document.querySelectorAll("#abajo_vuelta .list")
+            let caja_arriba_vuelta = document.getElementById("arriba_vuelta")
+            let caja_abajo_vuelta = document.getElementById("abajo_vuelta")
+            let divs_arriba_vuelta = caja_arriba_vuelta.querySelectorAll("#arriba_vuelta .row")
+            for (let lista of listas_vuelta) {
+                lista.addEventListener("dragstart",function (e) {
+                    let seleccionado = e.target
+    
+                    for (let clase of divs_arriba_vuelta) {
+                        clase.addEventListener("dragover",function (e) {
+                            e.preventDefault()
+                        })
+                        clase.addEventListener("drop",function(e){
+                            clase.appendChild(seleccionado)
+                            seleccionado = null
+                        })
+                    }
+                    caja_abajo_vuelta.addEventListener("dragover",function (e) {
+                        e.preventDefault()
+                    })
+                    caja_abajo_vuelta.addEventListener("drop",function (e) {
+                        caja_abajo_vuelta.appendChild(seleccionado)
+                        seleccionado = null
+                    })
+                })
+            }
+            let boton_vuelta = document.getElementById("botonRefrescar_vuelta")
+            boton_vuelta.addEventListener("click",() => {
+                alert("Su TierList ha sido enviada de forma correcta")
+                location.reload()
+                
+            })
+        </script>
+</body>
+</html>

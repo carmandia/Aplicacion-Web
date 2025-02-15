@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="Pag_Informacion.css">
+</head>
+<body>
+    <div class="tab-pane" id="Dropdown_carreras">
+        <ul class="nav nav-tabs bg-dark">
+            <li class="nav-item">
+                <a href="#Previsualizacion_carreras" class="nav-link active" data-bs-toggle="tab">Pre-visualizacion</a>
+            </li>
+            <li>
+                <a href="#Consultas_carreras" class="nav-link" data-bs-toggle="tab">Consultas</a>
+            </li>
+            <li>
+                <a href="#Insercion_carreras" class="nav-link" data-bs-toggle="tab">Insercion</a>
+            </li>
+            <li>
+                <a href="#Actualizacion_carreras" class="nav-link" data-bs-toggle="tab">Actualizacion</a>
+            </li>
+            <li>
+                <a href="#Eliminacion_carreras" class="nav-link" data-bs-toggle="tab">Eliminacion</a>
+            </li>
+        </ul> <!-- ul para los tabs del Dorpdown_period_vincul-->
+        <div class="tab-content">
+            <div id="Previsualizacion_carreras" class="tab-pane active">
+                <div id="Estilos_Previsualizacion_carreras" class="estilos_Paginas">
+                    
+                    <p>
+                        A continuacion se muestra toda la informacion contenida en la tabla carrera que incluye las clasicas y las carreras por etapas
+                    </p>
+                    <div id="salida_Previsualizacion_carreras"></div>
+                    <script>
+                        let salida_Previsualizacion_carreras = document.getElementById("salida_Previsualizacion_carreras")
+                        let url_Previsualizacion_carreras = new URL("http://localhost/Proyecto/Previsualizacion_Carrera.php")
+                        fetch(url_Previsualizacion_carreras)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.json())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='4'> Tabla Carrera Completa  </th> </tr>
+                                <tr> <td> Nombre Carrera </td> <td> Pais </td> <td> Escala UCI </td> </tr> </thead> <tbody> `
+                            for (let res of respuesta) {
+                                resultado += `<tr> <td> ${res.Nombre} </td> <td> ${res.Pais}  </td> <td> ${res.Escala_UCI}  </td></tr>` 
+                            }
+                            resultado += `</tbody></table>`
+                            salida_Previsualizacion_carreras.innerHTML = resultado
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_carreras-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Consultas_carreras" class="tab-pane ">
+                <div id="Estilos_Consultas_carreras" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui puede consultar la informacion completa de una carrera que desee
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione que carrera quiere consultar</label>
+                        <select name="consulta_Carreras_Consultas" id="consulta_Carreras_Consultas" class="form-select"></select>
+                        <button type="button" id="btn_Consultas_Carreras" class="btn btn-primary">Consultar</button>
+                    </form>
+                    <div id="salida_Consultas_carreras"></div>
+                    <script>
+                        let url_consulta_Carreras_Consultas = new URL("http://localhost/Proyecto/Select_Carrera.php")
+                        fetch(url_consulta_Carreras_Consultas)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let consulta_Carreras_Consultas = document.getElementById("consulta_Carreras_Consultas")
+                            consulta_Carreras_Consultas.innerHTML =respuesta
+                            let btn_Consultas_Carreras = document.getElementById("btn_Consultas_Carreras")
+                            btn_Consultas_Carreras.addEventListener("click",() => {
+                                let params = {Carrera:consulta_Carreras_Consultas.value}
+                                let requestObj = {method:"POST"}
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                requestObj["body"] = JSON.stringify(params)
+                                let url_Consultas_Carreras = new URL("http://localhost/Proyecto/Consultas_Carreras.php")
+                                fetch(url_Consultas_Carreras,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Consultas_carreras = document.getElementById("salida_Consultas_carreras")
+                                    let resultado = `<table class='table table-hover table-striped'><thead> <tr> <th colspan='3'> Tabla Carrera = ${params.Carrera}  </th> </tr>
+                                <tr> <td> Nombre Carrera </td> <td> Pais </td> <td> Escala UCI </td> </tr> </thead> <tbody> `
+                                    for (let res of respuesta) {
+                                    resultado += `<tr> <td> ${res.Nombre} </td> <td> ${res.Pais}  </td> <td> ${res.Escala_UCI}  </td> </tr>` 
+                                    }
+                                    resultado += `</tbody></table>`
+                                    salida_Consultas_carreras.innerHTML = resultado
+                                }) 
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_carreras-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Eliminacion_carreras" class="tab-pane">
+                <div id="Estilos_Eliminacion_carreras" class="estilos_Paginas">
+                    
+                    <p>
+                        Aqui podra eliminar los datos de una carrera que no considere correcta o que haya dejado de existir
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione que carrera quiere eliminar</label>
+                        <select name="consulta_Carreras_Eliminacion" id="consulta_Carreras_Eliminacion" class="form-select"></select>
+                        <button type="button" id="btn_Eliminacion_Carreras" class="btn btn-primary">Eliminar</button>
+                    </form>
+                    <div id="salida_Eliminacion_carreras"></div>
+                    <script>
+                        let url_consulta_Carreras_Eliminacion = new URL("http://localhost/Proyecto/Select_Carrera.php")
+                        fetch(url_consulta_Carreras_Eliminacion)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let consulta_Carreras_Eliminacion = document.getElementById("consulta_Carreras_Eliminacion")
+                            consulta_Carreras_Eliminacion.innerHTML =respuesta
+                            let btn_Eliminacion_Carreras = document.getElementById("btn_Eliminacion_Carreras")
+                            btn_Eliminacion_Carreras.addEventListener("click",() => {
+                                let params = {Carrera:consulta_Carreras_Eliminacion.value}
+                                let requestObj = {method:"POST"}
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                requestObj["body"] = JSON.stringify(params)
+                                let url_Eliminacion_Carreras = new URL("http://localhost/Proyecto/Eliminacion_Carreras.php")
+                                fetch(url_Consultas_Carreras,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Eliminacion_carreras = document.getElementById("salida_Eliminacion_carreras")
+                                    salida_Eliminacion_carreras.innerHTML = respuesta
+                                }) 
+                            })
+                        })
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Previsualizacion_carreras-->
+            </div> <!-- Div que cierra el tab-Pane de visualizacion-->
+            <div id="Actualizacion_carreras" class="tab-pane">
+                <div id="Estilos_Actualizacion_Carreras" class="estilos_Paginas">
+                    <p>
+                        Aqui podra actualizar la informacion acerca de una carrera
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione la carrera que quiere Actualizar</label>
+                        <select name="Carrera_Carreras_Actualizacion" id="Carrera_Carreras_Actualizacion" class="form-select"></select>
+                        <label for="" class="form-label">Pais actualizado</label>
+                        <input type="text" id="Pais_Carreras_Actualizacion" class="form-control">
+                        <label for="" class="form-label">Escala UCI actualizado</label>
+                        <input type="text" id="Escala_Carreras_Actualizacion" class="form-control">
+                        <button type="button" id="btn_Carrera_Carreras_Actualizacion">Actualizar</button>
+                    </form>
+                    <div id="salida_Actualizacion_Carreras"></div>
+                    <script>
+                        let url_Actualizacion_Carreras_select = new URL("http://localhost/Proyecto/Select_Carrera.php")
+                        fetch(url_Actualizacion_Carreras_select)
+                        .then((response) => {
+                            if (response.ok) {
+                                return(response.text())
+                            }
+                        })
+                        .then((respuesta) => {
+                            let Carrera_Carreras_Actualizacion = document.getElementById("Carrera_Carreras_Actualizacion")
+                            Carrera_Carreras_Actualizacion.innerHTML = respuesta
+                            let btn_Carrera_Carreras_Actualizacion = document.getElementById("btn_Carrera_Carreras_Actualizacion")
+                            btn_Carrera_Carreras_Actualizacion.addEventListener("click",()=> {
+                                let Vuelta = Carrera_Carreras_Actualizacion.value
+                                let pais = document.getElementById("Pais_Carreras_Actualizacion").value
+                                let esc = document.getElementById("Escala_Carreras_Actualizacion").value
+                                let params = {Carrera: Vuelta, Pais : pais, Escala:esc}
+                                console.log(params)
+                                let requestObj = {method:"POST"}
+                                requestObj["body"] = JSON.stringify(params);
+                                requestObj["Content-type"] = "application/json; charset=UTF-8";
+                                let url_Carreras_Actualizacion = new URL("http://localhost/Proyecto/Actualizacion_Carreras.php")
+                                fetch(url_Carreras_Actualizacion,requestObj)
+                                .then((response) => {
+                                    if (response.ok) {
+                                        return(response.json())
+                                    }
+                                })
+                                .then((respuesta) => {
+                                    let salida_Actualizacion_Carreras = document.getElementById("salida_Actualizacion_Carreras")
+                                    salida_Actualizacion_Carreras.innerHTML = respuesta
+                                })
+                            })
+                        }) 
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Actualizacion_clasicas-->
+            </div> <!-- Div que cierra el tab-Pane de Actualizacion-->
+            <div id="Insercion_carreras" class="tab-pane">
+                <div id="Estilos_Insercion_Carreras" class="estilos_Paginas">
+                    <p>
+                        Aqui podra insertar mas carreras para su posterior uso en otras tablas
+                    </p>
+                    <form action="">
+                        <label for="" class="form-label">Seleccione la carrera que quiere Insertar</label>
+                        <input type="text" id="Carrera_Carreras_Insercion" class="form-control">
+                        <label for="" class="form-label">Pais</label>
+                        <input type="text" id="DistRecorr_Carreras_Insercion" class="form-control">
+                        <label for="" class="form-label">Escala UCI</label>
+                        <input type="text" id="Netapas_Carreras_Insercion" class="form-control">
+                        <button type="button" id="btn_Carrera_Carreras_Insercion" class="btn btn-primary">Insertar</button>
+                    </form>
+                    <div id="salida_Insercion_Carreras"></div>
+                    <script>
+                        let btn_Carrera_Carreras_Insercion = document.getElementById("btn_Carrera_Carreras_Insercion")
+                        btn_Carrera_Carreras_Insercion.addEventListener("click",()=> {
+                            let vuelta_Insercion = document.getElementById("Carrera_Carreras_Insercion").value
+                            let DistRecorr_Insercion = document.getElementById("DistRecorr_Carreras_Insercion").value
+                            let num_etp = document.getElementById("Netapas_Carreras_Insercion").value
+                            let params = {Carrera: clasica_Insercion, Pais : DistRecorr_Insercion, Escala: num_etp}
+                            let requestObj = {method:"POST"}
+                            requestObj["body"] = JSON.stringify(params);
+                            requestObj["Content-type"] = "application/json; charset=UTF-8";
+                            let url_Carreras_Insercion = new URL("http://localhost/Proyecto/Insercion_Carreras.php")
+                            fetch(url_Carreras_Insercion,requestObj)
+                            .then((response) => {
+                                if (response.ok) {
+                                    return(response.json())
+                                }
+                            })
+                            .then((respuesta) => {
+                                let salida_Insercion_Carreras = document.getElementById("salida_Insercion_Carreras")
+                                salida_Insercion_Carreras.innerHTML = respuesta
+                            })
+                        }) 
+                    </script>
+                </div> <!-- Div que cierra los estilos para darle a Insercion_clasicas-->
+            </div> <!-- Div que cierra el tab-Pane de Insercion-->
+        </div> <!-- Div que cierra el tab-content de la tabla vinc_carreras-->
+    </div> <!-- Div que cierra el tab-pane de la interaccion con la tabla vinc_carreras-->
+</body>
+</html>
