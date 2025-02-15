@@ -1,0 +1,175 @@
+/*#Juego #Clasica,#Vuelta{
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    /*justify-content: center;
+    align-items: center;
+}
+#Juego h1{
+    align-items: center;
+}
+#Juego #arriba {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    height: 400px;
+    background-color: rgb(30, 30, 30);
+}
+#Juego .row {
+    display: flex;
+    width: 100%;
+    height: 85px;  
+    background-color: rgb(56, 56, 56);
+    box-sizing: border-box;
+}
+#Juego .row .label{
+    color: white;
+    display: flex;
+    width: 20%;
+    align-items: center;
+}
+#abajo{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#Juego #abajo img{
+    width: 90px;
+    height: 80px;
+}
+.list{
+    cursor: grab;
+}*/
+/*#Juego, #Clasica, #Vuelta {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+#Juego h1 {
+    text-align: center;
+}
+
+#Juego #arriba {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    height: 400px;
+    background-color: rgb(30, 30, 30);
+}
+
+#Juego .row {
+    display: flex;
+    width: 100%;
+    height: 85px;
+    background-color: rgb(56, 56, 56);
+}
+
+#Juego .row .label {
+    color: white;
+    display: flex;
+    width: 20%;
+    align-items: center;
+    padding-left: 10px;
+}
+
+#abajo {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+}
+
+#Juego img {
+    width: 90px;
+    height: 80px;
+}
+
+.list {
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}*/
+.Estilos_tier_list {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: #F3F3F3;
+}
+
+.Estilos_tier_list h1 {
+    text-align: center;
+}
+
+.Estilos_tier_list #arriba_clasica {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    height: 400px;
+    background-color: rgb(30, 30, 30);
+}
+
+.Estilos_tier_list .row {
+    display: flex;
+    width: 100%;
+    height: 85px;
+    background-color: rgb(56, 56, 56);
+    margin-bottom: 10px;
+}
+
+.Estilos_tier_list .row .label {
+    display: flex;
+    width: 20%;
+    align-items: center;
+    padding-left: 10px;
+}
+
+#abajo_clasica{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+}
+
+.Estilos_tier_list img {
+    width: 90px;
+    height: 80px;
+}
+
+.Estilos_tier_list .list {
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+#refreshBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.lugar_boton{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1em;
+}

@@ -1,0 +1,28 @@
+#Estilo_pag_equipos .card {
+    display: flex;
+    flex-direction: column;
+}
+/* #Equipos_pag .cartel {
+    width: 3em;
+    height: 5em;
+} */
+.maillot{ 
+    height: 195px;
+}
+#Estilo_pag_equipos{
+    background-color: #F3F3F3;
+}
+#Estilo_pag_equipos #divCards .tarjeta{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card{
+    border: dashed 2px black;
+    color: white;
+}
+#Estilo_pag_equipos > p {
+    /*margin-top: 10px;*/
+    margin-top: 10px;
+    margin: 20px;
+}

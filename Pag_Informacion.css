@@ -1,0 +1,23 @@
+.estilos_Paginas{
+    /*display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;*/
+    background-color: #F3F3F3;
+    box-sizing: border-box;
+}
+.estilos_Paginas form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+form select:required,input:required{
+    content: "*";
+}
+/*.estilos_Paginas *{
+    margin-top: 3px;
+    margin: 5px;
+}
+.estilos_Paginas div{
+    display: flex!important;
+    justify-content: center !important;
+}*/

@@ -1,0 +1,43 @@
+* {
+    padding: 1em;
+}
+main{
+    > h1 {text-align: center};
+    > h3 {text-align: left};
+}
+nav{
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+}
+nav button{
+    text-decoration: none;
+    border: 0px;
+    margin: 0px;
+    background-color: lightgray;
+}
+nav button:hover{
+    transform: scale(1.1);
+}
+ul{
+    list-style: none;
+    /*display: inline-block;*/
+}
+ul li{
+    margin: 15px;
+}
+ul li button{
+    text-decoration: none;
+}
+.inicio a{
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    float: right;
+}
+a:active{
+    color: black;
+}
+body{
+    filter: contrast(200%);
+}

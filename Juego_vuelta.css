@@ -1,0 +1,49 @@
+#estilos_vuelta {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    background-color: #F3F3F3;
+}
+#estilos_vuelta h1{
+    text-align: center;
+}
+#estilos_vuelta #arriba_vuelta {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    height: 400px;
+    background-color: rgb(30, 30, 30);
+}
+#estilos_vuelta #arriba_vuelta .row{
+        display: flex;
+        width: 100%;
+        height: 85px;
+        background-color: rgb(56, 56, 56);
+        margin-bottom: 10px;
+}
+#estilos_vuelta .row .label{
+    display: flex;
+    width: 20%;
+    align-items: center;
+    padding-left: 10px;
+}
+#estilos_vuelta #abajo_vuelta{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+}
+#estilos_vuelta img{
+    width: 90px;
+    height: 80px;
+}
+#lugar_boton_vuelta{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1em;
+}

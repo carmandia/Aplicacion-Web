@@ -1,0 +1,14 @@
+body{
+    background-image: url(Imagenes/Pag_Inicio.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+/*#cabecera_pagina_general > div img{
+    width: 10px;
+    height: 10px;
+    box-sizing: border-box;
+}*/
+

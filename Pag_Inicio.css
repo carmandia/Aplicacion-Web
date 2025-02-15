@@ -1,0 +1,69 @@
+/*#Inicio_pag #carrusel_inicio .carousel-inner div{
+    height: 600px;
+}
+#Inicio_pag #carrusel_inicio .carousel-inner div img{
+    height: 100%;
+    width: 100%;
+}
+#Inicio_pag #carrusel_inicio{
+    width: 50%;
+    /*display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#Inicio_pag pag_inicio_cent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}*/
+#Estilo_pag_inicio {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    /*height: 100vh; /* Altura completa de la ventana para centrar verticalmente */
+    /*width: 100%;*/
+    background-color: #F3F3F3;
+}
+#Estilo_pag_inicio > p {
+    margin-top: 10px;
+    margin: 20px;
+}
+#carrusel_inicio {
+    width: 50%;
+}
+#carrusel_inicio .carousel-inner div {
+    height: 600px;
+}
+#carrusel_inicio .carousel-inner div img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* Esto ayudará a mantener la relación de aspecto de las imágenes */
+}
+#Estilo_pag_inicio > #Parrafos_explic{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+#Estilo_pag_inicio > #Parrafos_explic ul li{
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    list-style: none;
+    margin-left: 5px;
+}
+#Estilo_pag_inicio > #Parrafos_explic ul div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#Estilo_pag_inicio > #Parrafos_explic ul img{
+    /*display: flex;
+    justify-content: center;
+    align-items: center;*/
+    width: 30%;
+    height: 50%;
+}

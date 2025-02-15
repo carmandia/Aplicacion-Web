@@ -1,0 +1,57 @@
+#estilos_clasica {
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center;*/
+    box-sizing: border-box;
+    background-color: #F3F3F3;
+}
+#estilos_clasica>p{
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+#estilos_clasica h1{
+    text-align: center;
+}
+#estilos_clasica #arriba_clasica {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    height: 400px;
+    background-color: rgb(30, 30, 30);
+}
+#estilos_clasica #arriba_clasica .row{
+        display: flex;
+        width: 100%;
+        height: 85px;
+        background-color: rgb(56, 56, 56);
+        margin-bottom: 10px;
+}
+#estilos_clasica #arriba_clasica .row .label{
+    display: flex;
+    width: 20%;
+    align-items: center;
+    padding-left: 10px;
+}
+#estilos_clasica #abajo_clasica{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 10px;
+}
+#estilos_clasica img{
+    width: 90px;
+    height: 80px;
+    cursor: grab;
+}
+#lugar_boton_clasica{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 1em;
+}

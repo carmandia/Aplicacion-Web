@@ -1,0 +1,29 @@
+#Enlaces{
+    background-color: #F3F3F3;
+}
+#Acordeon_enlaces li a[href$="es"]{
+    border: 2px dotted;
+}
+div + h2{
+    text-decoration: underline;
+}
+div + h2::first-letter{
+    font-style: italic;
+}
+.accordion-body + p::first-line{
+    font-weight: bold;
+}
+#Acordeon_enlaces ul{
+    list-style: none;
+    text-decoration: none;
+}
+#Acordeon_enlaces ul a:nth-child(2n + 1){
+    text-decoration: none;
+    color: black;
+}
+#Acordeon_enlaces a:nth-child(2n+1):hover{
+    color: red;
+}
+#Acordeon_enlaces ul:last-child a:visited{
+    color: green;
+}
